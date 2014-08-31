@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.rectoverso.RVGame;
+import com.rectoverso.controllers.MusicManager.RVMusic;
+import com.rectoverso.controllers.SoundManager.RVSound;
 import com.rectoverso.utils.DefaultInputListener;
 
 
@@ -18,13 +20,13 @@ public class MenuScreen extends AbstractScreen {
 
 	private final int BUTTONW = 150; 
 	private final int BUTTONH = 30; 
-	
+
 	private SpriteBatch batch;
 	private TextureRegion menuImage;
-	
+
 	private Label title = new Label("RectoVerso "+RVGame.VER, this.getSkin());
 	private Label subtitle = new Label("Dev mode : "+RVGame.DEV_MODE, this.getSkin());
-	
+
 	public MenuScreen(RVGame game) {
 		super(game);
 	}
@@ -34,13 +36,13 @@ public class MenuScreen extends AbstractScreen {
 	{
 		super.show();
 		// start playing the menu music
-		/*if(RectoVersoGame.DEV_MODE)
-			game.getMusicManager().play( ObiMusic.MENU );*/
+		if(RVGame.DEV_MODE)
+			game.getMusicManager().play(RVMusic.MENU );
 		// retrieve the default table actor
 		/*TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("images-atlases/pages.atlas"));
         menuImage = atlas.findRegion("titleScreenImage");*/
-        batch = this.getBatch();
-        
+		batch = this.getBatch();
+
 		Table table = super.getTable();
 		table.right().padRight(30).top().padTop(50);
 		table.add(title).spaceBottom(0);
@@ -59,13 +61,13 @@ public class MenuScreen extends AbstractScreen {
 					int button )
 			{
 				super.touchUp(event, x, y, pointer, button);
-				/*game.getSoundManager().play( ObiSound.CLICK );
-				game.setScreen(game.getStartLocalGameScreen());*/
+				game.getSoundManager().play( RVSound.CLICK );
+				/*game.setScreen(game.getStartLocalGameScreen());*/
 			}
 		} );
 		table.add(startGameButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
-		
+
 		// register the button "options"
 		TextButton optionsButton = new TextButton("Options", getSkin());
 		optionsButton.addListener(new DefaultInputListener() {
@@ -78,16 +80,16 @@ public class MenuScreen extends AbstractScreen {
 					int button )
 			{
 				super.touchUp(event, x, y, pointer, button);
-				/*game.getSoundManager().play(ObiSound.CLICK);
-				game.setScreen(game.getOptionsScreen());*/
+				game.getSoundManager().play(RVSound.CLICK);
+				game.setScreen(game.getOptionsScreen());
 			}
 		} );
 		table.add(optionsButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
 
-		// register the button "quitter"
-		TextButton highScoresButton = new TextButton("Editeur", getSkin() );
-		highScoresButton.addListener(new DefaultInputListener() {
+		// register the editor button 
+		TextButton editorButton = new TextButton("Editeur", getSkin() );
+		editorButton.addListener(new DefaultInputListener() {
 			@Override
 			public void touchUp(
 					InputEvent event,
@@ -100,12 +102,12 @@ public class MenuScreen extends AbstractScreen {
 				//game.setScreen(game.getRulesScreen());
 			}
 		} );
-		table.add(highScoresButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
+		table.add(editorButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
 
-		// register the button "quitter"
+		// register the exit button
 		TextButton quit = new TextButton("Quitter", getSkin());
-		quit.addListener( new DefaultInputListener() {
+		quit.addListener(new DefaultInputListener() {
 			@Override
 			public void touchUp(
 					InputEvent event,
@@ -120,12 +122,9 @@ public class MenuScreen extends AbstractScreen {
 		} );
 		table.add(quit).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 	}
-	
+
 	public void render(float delta) {
 		super.render(delta);
-		batch.begin();
-		//batch.draw(menuImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.end();
 		this.stage.draw();
 	}
 

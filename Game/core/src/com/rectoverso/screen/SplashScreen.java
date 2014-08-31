@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.rectoverso.RVGame;
+import com.rectoverso.controllers.MusicManager.RVMusic;
 
 public class SplashScreen extends AbstractScreen {
 
@@ -24,11 +25,11 @@ public class SplashScreen extends AbstractScreen {
 		super.show();
 
 		// start playing the menu music
-		/*if(!RectoVersoGame.DEV_MODE )
-			game.getMusicManager().play( ObiMusic.MENU );*/
+		if(!RVGame.DEV_MODE )
+			game.getMusicManager().play(RVMusic.MENU);
 
 		// retrieve the splash image's region from the atlas
-		AtlasRegion splashRegion = getAtlas().findRegion( "splash" );
+		AtlasRegion splashRegion = getAtlas().findRegion("splash");
 		Drawable splashDrawable = new TextureRegionDrawable( splashRegion );
 
 		// here we create the splash image actor; its size is set when the

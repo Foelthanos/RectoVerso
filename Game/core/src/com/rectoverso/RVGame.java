@@ -18,7 +18,7 @@ public class RVGame extends Game {
 
 	public static final String LOG = RVGame.class.getSimpleName();
 	public static final boolean DEV_MODE = true;
-	public static final String VER = "0.0.1a";
+	public static final String VER = "0.0.2a";
 
 	private PreferencesManager preferencesManager;
 	private LevelManager levelManager;

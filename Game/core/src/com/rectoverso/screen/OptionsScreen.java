@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.rectoverso.RVGame;
+import com.rectoverso.controllers.MusicManager.RVMusic;
+import com.rectoverso.controllers.SoundManager.RVSound;
 import com.rectoverso.utils.DefaultInputListener;
 
 /**
@@ -32,45 +34,16 @@ public class OptionsScreen extends AbstractScreen {
         super.show();
 
         // retrieve the default table actor
-        /*Table table = super.getTable();
+        Table table = super.getTable();
         table.defaults().spaceBottom(30);
         table.columnDefaults(0).padRight(20);
         table.add("Options").colspan(3).padRight(0);
 
         // create the labels widgets
-        final TextField pseudoTextField = new TextField(game.getPreferencesManager().getPseudo(), getSkin());
-        pseudoTextField.setTextFieldListener(new TextFieldListener() {
-			
-			@Override
-			public void keyTyped(TextField textField, char c) {
-				// TODO Auto-generated method stub
-				String changedPseudo = pseudoTextField.getText();
-				System.out.println("test pseudo "+changedPseudo);
-                game.getPreferencesManager().setPseudo(changedPseudo);
-			}
-		});
-        table.row();
-        table.add("Pseudonyme Moscovites: ");
-        table.add(pseudoTextField).colspan(2).left().fillX();
-        
-        final TextField pseudo2TextField = new TextField(game.getPreferencesManager().getPseudoP2(), getSkin());
-        pseudo2TextField.setTextFieldListener(new TextFieldListener() {
-			
-			@Override
-			public void keyTyped(TextField textField, char c) {
-				// TODO Auto-generated method stub
-				String changedPseudo = pseudo2TextField.getText();
-				System.out.println("test pseudo 2 "+changedPseudo);
-                game.getPreferencesManager().setPseudoP2(changedPseudo);
-			}
-		});
-        table.row();
-        table.add("Pseudonyme Vikings: ");
-        table.add(pseudo2TextField).colspan(2).left().fillX();
         
         final CheckBox soundEffectsCheckbox = new CheckBox("", getSkin());
         soundEffectsCheckbox.setChecked( game.getPreferencesManager().isSoundEnabled());
-        soundEffectsCheckbox.addListener( new ChangeListener() {
+        soundEffectsCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(
                 ChangeEvent event,
@@ -79,7 +52,7 @@ public class OptionsScreen extends AbstractScreen {
                 boolean enabled = soundEffectsCheckbox.isChecked();
                 game.getPreferencesManager().setSoundEnabled(enabled);
                 game.getSoundManager().setEnabled(enabled);
-                game.getSoundManager().play(ObiSound.CLICK);
+                game.getSoundManager().play(RVSound.CLICK);
             }
         } );
         table.row();
@@ -97,10 +70,10 @@ public class OptionsScreen extends AbstractScreen {
                 boolean enabled = musicCheckbox.isChecked();
                 game.getPreferencesManager().setMusicEnabled(enabled);
                 game.getMusicManager().setEnabled(enabled);
-                game.getSoundManager().play(ObiSound.CLICK);
+                game.getSoundManager().play(RVSound.CLICK);
 
                 // if the music is now enabled, start playing the menu music
-                if(enabled) game.getMusicManager().play(ObiMusic.MENU);
+                if(enabled) game.getMusicManager().play(RVMusic.MENU);
             }
         } );
         table.row();
@@ -146,20 +119,20 @@ public class OptionsScreen extends AbstractScreen {
                 int button )
             {
                 super.touchUp( event, x, y, pointer, button );
-                game.getSoundManager().play( ObiSound.CLICK );
+                game.getSoundManager().play(RVSound.CLICK );
                 game.setScreen( new MenuScreen( game ) );
             }
         });
         table.row();
-        table.add(backButton).height(60).colspan(3).padRight(0).fillX();*/
+        table.add(backButton).height(60).colspan(3).padRight(0).fillX();
     }
 
     /**
      * Updates the volume label next to the slider.
      */
-   /* private void updateVolumeLabel()
+    private void updateVolumeLabel()
     {
         float volume = ( game.getPreferencesManager().getVolume() * 100 );
         volumeValue.setText( String.format( Locale.US, "%1.0f%%", volume ) );
-    }*/
+    }
 }

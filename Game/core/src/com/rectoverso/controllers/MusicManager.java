@@ -20,8 +20,7 @@ public class MusicManager
      */
     public enum RVMusic
     {
-        MENU( "music/music.ogg" ),
-        LEVEL( "music/level.ogg" );
+        MENU( "music/test.ogg" );
         
         private String fileName;
         private Music musicResource;
