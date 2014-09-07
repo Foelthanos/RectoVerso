@@ -12,6 +12,7 @@ public class DesktopLauncher {
 		config.title = "RectoVerso";
 		config.fullscreen = false;
 		config.resizable = false;
+		
 		new LwjglApplication(new RVGame(), config);
 	}
 }
