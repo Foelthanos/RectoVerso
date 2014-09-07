@@ -87,7 +87,7 @@ public class MenuScreen extends AbstractScreen {
 		table.add(optionsButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
 
-		// register the editor button 
+		// register the button "editor"
 		TextButton editorButton = new TextButton("Editeur", getSkin() );
 		editorButton.addListener(new DefaultInputListener() {
 			@Override
@@ -105,7 +105,25 @@ public class MenuScreen extends AbstractScreen {
 		table.add(editorButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
 
-		// register the exit button
+		// register the button "credit"
+		TextButton creditButton = new TextButton("Credit", getSkin() );
+		creditButton.addListener(new DefaultInputListener() {
+			@Override
+			public void touchUp(
+					InputEvent event,
+					float x,
+					float y,
+					int pointer,
+					int button )
+			{
+				super.touchUp(event, x, y, pointer, button);
+				//game.setScreen(game.getRulesScreen());
+			}
+		} );
+		table.add(creditButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
+		table.row();
+
+		// register the button "quit"
 		TextButton quit = new TextButton("Quitter", getSkin());
 		quit.addListener(new DefaultInputListener() {
 			@Override
@@ -123,6 +141,9 @@ public class MenuScreen extends AbstractScreen {
 		table.add(quit).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 	}
 
+	/**
+	 * 
+	 */
 	public void render(float delta) {
 		super.render(delta);
 		this.stage.draw();

@@ -13,12 +13,18 @@ import com.rectoverso.screen.MenuScreen;
 import com.rectoverso.screen.OptionsScreen;
 import com.rectoverso.screen.SplashScreen;
 
+/**
+ * Main class of the game. Give methods that connect the screens with
+ * all the managers of the game. Give standard gamestate methods.
+ * @author Brahim "Violacrimosum" Berkati
+ * @version 0.3
+ */
 public class RVGame extends Game {
 	private FPSLogger fps;
 
 	public static final String LOG = RVGame.class.getSimpleName();
 	public static final boolean DEV_MODE = true;
-	public static final String VER = "0.0.2a";
+	public static final String VER = "0.0.3a";
 
 	private PreferencesManager preferencesManager;
 	private LevelManager levelManager;

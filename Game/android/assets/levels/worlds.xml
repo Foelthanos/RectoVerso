@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worlds count="4">
+    <world name="Prologue">
+        <level type="normal" name="level1"></level>
+        <level type="normal" name="level2">
+            <level type="secret" name="level2s"></level>
+        </level>
+        <level type="normal" name="level3"></level>
+    </world>
+    <world name="Aube">
+        
+    </world>
+    <world name="Zenith">
+        
+    </world>
+    <world name="Crepuscule">
+        
+    </world>
+</worlds> 
