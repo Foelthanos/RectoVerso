@@ -44,9 +44,6 @@ public class LevelEditorScreen extends AbstractScreen {
 	public void show()
 	{
 		super.show();
-		// start playing the menu music
-		if(RVGame.DEV_MODE)
-			game.getMusicManager().play(RVMusic.MENU );
 		// retrieve the default table actor
 		/*TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("images-atlases/pages.atlas"));
         menuImage = atlas.findRegion("titleScreenImage");*/
@@ -184,9 +181,9 @@ public class LevelEditorScreen extends AbstractScreen {
 		table2.row();
 		table2.add(saveButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).right();
 		table2.row();
-		table2.add(lab_obj).spaceBottom(0);
+		table2.add(lab_obj).spaceBottom(100);
 		table2.row();
-		table2.add(scrollPane3).size(this.BUTTONW, this.BUTTONH*18).top().spaceBottom(0).right();
+		table2.add(scrollPane3).size(this.BUTTONW, this.BUTTONH*14).top().spaceBottom(0).right();
 		table2.row();
 		table2.add(testButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).right();
 		table2.row();
