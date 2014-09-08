@@ -8,6 +8,7 @@ import com.rectoverso.controllers.LevelManager;
 import com.rectoverso.controllers.MusicManager;
 import com.rectoverso.controllers.PreferencesManager;
 import com.rectoverso.controllers.SoundManager;
+import com.rectoverso.screen.CreditScreen;
 import com.rectoverso.screen.GameScreen;
 import com.rectoverso.screen.LevelEditorScreen;
 import com.rectoverso.screen.MenuScreen;
@@ -74,6 +75,11 @@ public class RVGame extends Game {
 		return new LevelEditorScreen(this);
 	}
 
+	public CreditScreen getCreditScreen()
+	{
+		return new CreditScreen(this);
+	}
+	
 	public MenuScreen getMenuScreen()
 	{
 		return new MenuScreen(this);

@@ -80,7 +80,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor{
 		return false;
 	}
 	/*private GameController gController;
-	private GameRenderer gRenderer;
 
 	private Label headMessage;
 	private TextButton quit;
