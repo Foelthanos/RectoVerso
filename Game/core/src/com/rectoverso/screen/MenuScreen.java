@@ -99,7 +99,8 @@ public class MenuScreen extends AbstractScreen {
 					int button )
 			{
 				super.touchUp(event, x, y, pointer, button);
-				//game.setScreen(game.getRulesScreen());
+				game.getSoundManager().play(RVSound.CLICK);
+				game.setScreen(game.getLevelEditorScreen());
 			}
 		} );
 		table.add(editorButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
