@@ -110,6 +110,7 @@ public class LevelEditorScreen extends AbstractScreen {
 					int button )
 			{
 				super.touchUp(event, x, y, pointer, button);
+				game.getLevelManager().saveLevel();
 			}
 		} );
 		
