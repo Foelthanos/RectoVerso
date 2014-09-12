@@ -53,34 +53,34 @@ public class LevelManager
     
     public void saveLevel (/*Map recto , Map verso*/){
     	StringWriter writer = new StringWriter();
-    	 XmlWriter xml = new XmlWriter(writer);
-    	 try {
-			xml.element("level")
-			 	.attribute("name", "")
-			 	.attribute("background", "")
-				.element("map")
-				        .attribute("side", "recto")
-				        .element("tile")
-				                .attribute("x", ""/*recto.tile(0,0).x*/)
-				                .attribute("y", ""/*recto.tile(0,0).y*/)
-				        .pop()
-				.pop()
-				.element("map")
-						.attribute("side", "verso")
-						.element("tile")
-				                .attribute("x", ""/*verso.tile(0,0).x*/)
-				                .attribute("y", ""/*verso.tile(0,0).y*/)
-				        .pop()
-				.pop()
-			.pop();
-			
-			//TO BE CONTINUED... On prendra garde à privilégier les constantes et enums
-			 
-			Gdx.app.log(RVGame.LOG, writer.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	XmlWriter xml = new XmlWriter(writer);
+    	try {
+    		xml.element("level")
+	    		.attribute("name", "")
+	    		.attribute("background", "")
+	    		.element("map")
+		    		.attribute("side", "recto")
+		    		.element("tile")
+			    		.attribute("x", ""/*recto.tile(0,0).x*/)
+			    		.attribute("y", ""/*recto.tile(0,0).y*/)
+		    		.pop()
+	    		.pop()
+	    		.element("map")
+		    		.attribute("side", "verso")
+		    		.element("tile")
+			    		.attribute("x", ""/*verso.tile(0,0).x*/)
+			    		.attribute("y", ""/*verso.tile(0,0).y*/)
+		    		.pop()
+		    	.pop()
+    		.pop();
+
+    		//TO BE CONTINUED... On prendra garde à privilégier les constantes et enums
+
+    		Gdx.app.log(RVGame.LOG, writer.toString());
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
     }
     
     public void setItem (/*Item item , Map carte , int tileX , int tileY , boolean recto*/){

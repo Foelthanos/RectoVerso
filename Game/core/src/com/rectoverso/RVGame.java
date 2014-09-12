@@ -5,12 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.rectoverso.controllers.LevelManager;
+import com.rectoverso.controllers.LevelSelectManager;
 import com.rectoverso.controllers.MusicManager;
 import com.rectoverso.controllers.PreferencesManager;
 import com.rectoverso.controllers.SoundManager;
 import com.rectoverso.screen.CreditScreen;
 import com.rectoverso.screen.GameScreen;
 import com.rectoverso.screen.LevelEditorScreen;
+import com.rectoverso.screen.LevelSelectScreen;
 import com.rectoverso.screen.MenuScreen;
 import com.rectoverso.screen.OptionsScreen;
 import com.rectoverso.screen.SplashScreen;
@@ -30,8 +32,10 @@ public class RVGame extends Game {
 
 	private PreferencesManager preferencesManager;
 	private LevelManager levelManager;
+	private LevelSelectManager levelSelectManager;
 	private MusicManager musicManager;
 	private SoundManager soundManager;
+	
 
 	public PreferencesManager getPreferencesManager()
 	{
@@ -41,6 +45,10 @@ public class RVGame extends Game {
 	public LevelManager getLevelManager()
 	{
 		return levelManager;
+	}
+	public LevelSelectManager getLevelSelectManager()
+	{
+		return levelSelectManager;
 	}
 
 	public MusicManager getMusicManager()
@@ -74,6 +82,11 @@ public class RVGame extends Game {
 	{
 		return new LevelEditorScreen(this);
 	}
+	
+	public LevelSelectScreen getLevelSelectScreen()
+	{
+		return new LevelSelectScreen(this);
+	}
 
 	public CreditScreen getCreditScreen()
 	{
@@ -104,6 +117,11 @@ public class RVGame extends Game {
 
 		// create the level manager
 		levelManager = new LevelManager();
+		
+		// create the level select manager
+		levelSelectManager = new LevelSelectManager();
+		levelSelectManager.parseWorlds();
+		levelSelectManager.setSelectedWorld(0);
 
 		fps = new FPSLogger();	
 	}

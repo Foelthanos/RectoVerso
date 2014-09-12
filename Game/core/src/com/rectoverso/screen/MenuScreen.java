@@ -63,6 +63,7 @@ public class MenuScreen extends AbstractScreen {
 				super.touchUp(event, x, y, pointer, button);
 				game.getSoundManager().play( RVSound.CLICK );
 				/*game.setScreen(game.getStartLocalGameScreen());*/
+				game.setScreen(game.getLevelSelectScreen());
 			}
 		} );
 		table.add(startGameButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();

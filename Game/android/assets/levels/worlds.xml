@@ -1,19 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<worlds worldCount="4">
-    <world name="Prologue" state="done" levelCount="4">
-        <level type="normal" name="level1"></level>
-        <level type="normal" name="level2">
-            <slevel type="secret" name="level2s"></slevel>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<worlds count="4">
+    <world name="Prologue" locked="true">
+        <level type="normal" name="Des pierres oubliées" locked="true"></level>
+        <level type="normal" name="Sous les ombres" locked="true">
+            <secret name="Tout ce qui brille..." locked="true"></secret>
         </level>
-        <level type="normal" name="level3"></level>
+        <level type="normal" name="Necto" locked="true"></level>
     </world>
-    <world name="Aube">
+    <world name="Aube" locked="true">
         
     </world>
-    <world name="Zenith">
+    <world name="Zenith" locked="true">
         
     </world>
-    <world name="Crepuscule">
+    <world name="Crepuscule" locked="true">
         
     </world>
 </worlds> 
