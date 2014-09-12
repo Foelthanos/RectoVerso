@@ -39,7 +39,7 @@ public class CreditScreen extends AbstractScreen {
         table.columnDefaults(0).padRight(20);
         table.add("Conception graphique :").colspan(3).padRight(0);
         table.row();
-        table.add("Alisee \"Plumpox\" Preud'homme").colspan(3).padRight(0);
+        table.add("Alisee \"Plumepox\" Preud'homme").colspan(3).padRight(0);
         table.row();
         table.add("Game Design :").colspan(3).padRight(0);
         table.row();
