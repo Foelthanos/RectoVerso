@@ -19,8 +19,13 @@ public class World {
 		this.levels.add(level);
 	}
 	
+	public ArrayList<Level> getLevels(){
+		return levels;
+	}
 	
-	
+	public boolean isLocked(){
+		return locked;
+	}
 	public void setLocked(boolean lock){
 		if(this.locked && !lock){
 			unlock();

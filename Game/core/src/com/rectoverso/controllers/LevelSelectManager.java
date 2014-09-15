@@ -51,7 +51,8 @@ public class LevelSelectManager {
 	    	    	 Level level = new Level(
 	    	    			 levelCount, 
 	    	    			 level_element.getAttribute("name"), 
-	    	    			 LevelType.valueOf( level_element.getAttribute("type"))
+	    	    			 LevelType.valueOf( level_element.getAttribute("type")),
+	    	    			 level_element.getBooleanAttribute("locked")
 	    	    			 );
 	    	    	 world.addLevel(level);
 	    	    	 
@@ -62,9 +63,10 @@ public class LevelSelectManager {
 		    	    	 Gdx.app.log(RVGame.LOG, "Secret :"+ secretCount +" - " + secret_element.getAttribute("name"));
 		    	    	 
 		    	    	 Level secret = new Level(
-		    	    			 levelCount, 
-		    	    			 level_element.getAttribute("name"), 
-		    	    			 LevelType.secret
+		    	    			 secretCount, 
+		    	    			 secret_element.getAttribute("name"), 
+		    	    			 LevelType.secret,
+		    	    			 level_element.getBooleanAttribute("locked")
 		    	    			 );
 		    	    	 world.addLevel(secret);
 		    	    	 secretCount ++;
@@ -111,5 +113,15 @@ public class LevelSelectManager {
 	public World getWorldSelected() {
 		// TODO Auto-generated method stub
 		return worldSelected;
+	}
+	
+	public void setLevelSelected(Level level){
+		levelSelected = level;
+	}
+
+	public void playLevel() {
+		//TO DO : Lancer le niveau !
+		Gdx.app.log(RVGame.LOG, "PLAY : "+levelSelected.getName());
+		
 	}
 }
