@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <worlds count="4">
     <world name="Prologue" locked="true">
         <level type="normal" name="Des pierres oubliées" locked="true"></level>
@@ -17,4 +16,4 @@
     <world name="Crepuscule" locked="true">
         
     </world>
-</worlds> 
+</worlds>
