@@ -1,4 +1,4 @@
-package com.rectoverso.model;
+﻿package com.rectoverso.model;
 
 import java.util.ArrayList;
 
@@ -19,6 +19,14 @@ public class World {
 		this.levels.add(level);
 	}
 	
+	public ArrayList<Level> getLevels(){
+		return levels;
+	}
+	
+	public boolean isLocked(){
+		return locked;
+	}
+
 	public void setLocked(boolean lock){
 		if(this.locked && !lock){
 			unlock();

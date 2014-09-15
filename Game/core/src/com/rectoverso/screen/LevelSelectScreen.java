@@ -1,5 +1,9 @@
 package com.rectoverso.screen;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -9,6 +13,8 @@ import com.rectoverso.controllers.SoundManager.RVSound;
 import com.rectoverso.model.Level;
 import com.rectoverso.model.World;
 import com.rectoverso.utils.DefaultInputListener;
+import com.rectoverso.utils.LevelIconButton;
+import com.rectoverso.utils.LevelIconButton.IconState;
 
 public class LevelSelectScreen extends AbstractScreen {
 
@@ -16,6 +22,8 @@ public class LevelSelectScreen extends AbstractScreen {
 	private Label lab_world = new Label("Monde 0 - Crepuscule", this.getSkin());
 	
 	private TextButton playButton;
+	
+	private ArrayList<LevelIconButton> levelIcons = new ArrayList<LevelIconButton>();
 	
 	public LevelSelectScreen(RVGame game) {
 		super(game);
@@ -56,6 +64,9 @@ public class LevelSelectScreen extends AbstractScreen {
             {
                 super.touchUp( event, x, y, pointer, button );
                 game.getSoundManager().play(RVSound.CLICK );
+                game.getLevelSelectManager().playLevel();
+                
+                
             }
         });
         
@@ -92,24 +103,91 @@ public class LevelSelectScreen extends AbstractScreen {
         //setLabelLevel("1.2 - Sous les Ombres");
 		lab_world.setFontScale(2);
 		
+		loadworld();
+		
+		
+	}
+	public void loadworld(){
+		
+		World world = game.getLevelSelectManager().getWorldSelected();
+		setLabelWorld(world.getName());
+		
+		int i = 0;
+		for(Level lvl : world.getLevels()){
+			LevelIconButton levelIcon = new LevelIconButton();
+			switch(lvl.getType()){
+			case normal:
+				levelIcon.create(i, 0, 2);
+				i+=2;
+				break;
+			default :
+				levelIcon.create(i, 0, 1);
+				i++;
+				break;
+				
+			
+			}
+			boolean selected = (lvl == game.getLevelSelectManager().getLevelSelected());
+			levelIcon.setLevel(lvl,selected);
+			levelIcons.add(levelIcon);
+		}
+		
+		
 	}
 	
 	public void render(float delta){
 		
 		super.render(delta);
 		
-		World world = game.getLevelSelectManager().getWorldSelected();
-		if (world != null){
-			setLabelWorld(world.getName());
+		this.renderIcons();
+		this.renderLabels();
+		
+	}
+	private void renderIcons(){
+		for(LevelIconButton icon : levelIcons){
+			icon.render();
+			if (icon.isColliding(Gdx.input.getX(), Gdx.input.getY())){
+				if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+					//on sélectionne un niveau
+					Gdx.app.log(RVGame.LOG, "select level "+icon.getLevel().getName());
+					game.getLevelSelectManager().setLevelSelected(icon.getLevel());
+					icon.setState(IconState.SELECTED);
+					
+					//il faut déselectionner toute autre icone
+					for(LevelIconButton i : levelIcons){
+						if (i != icon){
+							if (i.getState() == IconState.SELECTED){
+								i.setState(IconState.IDLE);
+							}
+						}
+					}
+				}
+			}
 		}
-		
-		
+	}
+	private void renderLabels(){
 		Level level = game.getLevelSelectManager().getLevelSelected();
+		World world = game.getLevelSelectManager().getWorldSelected();
+		
 		if (level != null && world != null){
-			setLabelLevel(world.getNumber()+"."+level.getNumber()+" - "+level.getName());
+			String text = "";
+			switch(level.getType()){
+			case normal :
+				text = "chapitre";
+				break;
+			case secret :
+				text = "secret";
+				break;
+			case movie :
+				text = "cinématique";
+				break;
+			}
+			setLabelLevel(text+" "+level.getNumber()+" - "+level.getName());
+			this.playButton.setVisible(true);
 		}
 		else{
 			setLabelLevel("CHOOSE YOUR FIGHTAAAAAAAAAAAA !");
+			this.playButton.setVisible(false);
 		}
 	}
 	

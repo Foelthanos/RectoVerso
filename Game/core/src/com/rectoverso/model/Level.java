@@ -17,10 +17,11 @@ public class Level {
 	private String background;
 	private boolean locked = true;
 	
-	public Level(int number, String name , LevelType type){
+	public Level(int number, String name , LevelType type, boolean locked){
 		this.number = number;
 		this.name = name;
 		this.type = type;
+		this.locked = locked;
 		
 	}
 	public void setLocked(boolean lock){
@@ -31,6 +32,9 @@ public class Level {
 			lock();
 		}
 		
+	}
+	public boolean isLocked(){
+		return locked;
 	}
 	private void unlock(){
 		this.locked  = false;
