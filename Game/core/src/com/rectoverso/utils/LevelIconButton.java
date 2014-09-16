@@ -55,18 +55,18 @@ public class LevelIconButton implements ApplicationListener {
     	if (state != IconState.IDLE) return false;
     	
     	//le repère y est completement inversé et le centre n'est pas le même selon la taille
-    	int xi = (int) sprite.getX() + 32;
-    	int yi = (int) (Gdx.graphics.getHeight() - sprite.getY()) - 32 + 16*(this.size-1);
+    	int xi = (int) sprite.getX() + TILE_WIDTH/2;
+    	int yi = (int) (Gdx.graphics.getHeight() - sprite.getY()) - TILE_HEIGHT + TILE_HEIGHT/2*(this.size-1);
     	
     	double d = Math.sqrt( Math.pow(x-xi, 2) + Math.pow(y-yi, 2) );
     	//Gdx.app.log(RVGame.LOG, this.level.getName()+" : "+d);
+    	texture.dispose();
     	if (d < 16*(this.size)){
     		texture = new Texture(Gdx.files.internal("hud/level_icon_select.png"));
     		sprite.setTexture(texture);
     		return true;
     	}
     	else{
-    		texture = new Texture(Gdx.files.internal("hud/level_icon_locked.png"));
     		texture = new Texture(Gdx.files.internal("hud/level_icon_idle.png"));
     		sprite.setTexture(texture);
     		return false;
@@ -115,6 +115,7 @@ public class LevelIconButton implements ApplicationListener {
     }
 
     private void renderState(){
+    	texture.dispose();
     	switch(state){
     	case IDLE:
     		texture = new Texture(Gdx.files.internal("hud/level_icon_idle.png"));

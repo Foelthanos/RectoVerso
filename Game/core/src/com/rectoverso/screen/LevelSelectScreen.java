@@ -12,6 +12,7 @@ import com.rectoverso.RVGame;
 import com.rectoverso.controllers.SoundManager.RVSound;
 import com.rectoverso.model.Level;
 import com.rectoverso.model.World;
+import com.rectoverso.utils.ArrowIconButton;
 import com.rectoverso.utils.DefaultInputListener;
 import com.rectoverso.utils.LevelIconButton;
 import com.rectoverso.utils.LevelIconButton.IconState;
@@ -24,6 +25,9 @@ public class LevelSelectScreen extends AbstractScreen {
 	private TextButton playButton;
 	
 	private ArrayList<LevelIconButton> levelIcons = new ArrayList<LevelIconButton>();
+	private ArrowIconButton rightArrow = new ArrowIconButton();
+	private ArrowIconButton leftArrow = new ArrowIconButton();
+	private boolean flagWorldChanged = false;
 	
 	public LevelSelectScreen(RVGame game) {
 		super(game);
@@ -103,6 +107,9 @@ public class LevelSelectScreen extends AbstractScreen {
         //setLabelLevel("1.2 - Sous les Ombres");
 		lab_world.setFontScale(2);
 		
+		
+		rightArrow.create(false,Gdx.graphics.getWidth() - 64,Gdx.graphics.getHeight()/2);
+		leftArrow.create(true,64,Gdx.graphics.getHeight()/2);
 		loadworld();
 		
 		
@@ -112,6 +119,25 @@ public class LevelSelectScreen extends AbstractScreen {
 		World world = game.getLevelSelectManager().getWorldSelected();
 		setLabelWorld(world.getName());
 		
+		if (world.getNumber() == 0){
+			leftArrow.setVisible(false);
+		}
+		else{
+			leftArrow.setVisible(true);
+		}
+		
+		if (world.getNumber() == 3 || game.getLevelSelectManager().getWorld(world.getNumber()+1).isLocked()){
+			rightArrow.setVisible(false);
+		}
+		else{
+			rightArrow.setVisible(true);
+		}
+		
+		//il faut se débarasser proprement de toutes les icones pour eviter la perte de mémoire
+		for(LevelIconButton icon : levelIcons){
+			icon.dispose();
+		}
+		levelIcons.clear();
 		int i = 0;
 		for(Level lvl : world.getLevels()){
 			LevelIconButton levelIcon = new LevelIconButton();
@@ -142,8 +168,41 @@ public class LevelSelectScreen extends AbstractScreen {
 		this.renderIcons();
 		this.renderLabels();
 		
+		
 	}
 	private void renderIcons(){
+		int mouseX = Gdx.input.getX();
+		int mouseY = Gdx.input.getY();
+		//icones de fleche
+		rightArrow.render();
+		leftArrow.render();
+		if(rightArrow.isColliding(mouseX,mouseY)){
+			if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) ){
+				if (!flagWorldChanged){
+					flagWorldChanged = true;
+					game.getLevelSelectManager().setSelectedWorld(game.getLevelSelectManager().getWorldSelected().getNumber()+1);
+					this.loadworld();
+				}
+			}
+			else {
+				flagWorldChanged = false;
+			}
+		}
+		else if (leftArrow.isColliding(mouseX,mouseY)){
+			if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) ){
+				if (!flagWorldChanged){
+					flagWorldChanged = true;
+					game.getLevelSelectManager().setSelectedWorld(game.getLevelSelectManager().getWorldSelected().getNumber()-1);
+					this.loadworld();
+				}
+			}
+			else {
+				flagWorldChanged = false;
+			}
+		}
+		
+		
+		//icones de niveaux
 		for(LevelIconButton icon : levelIcons){
 			icon.render();
 			if (icon.isColliding(Gdx.input.getX(), Gdx.input.getY())){

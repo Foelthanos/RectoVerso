@@ -114,6 +114,14 @@ public class LevelSelectManager {
 		// TODO Auto-generated method stub
 		return worldSelected;
 	}
+	public World getWorld(int number) {
+		for(World w : worlds){
+			if (w.getNumber() == number){
+				return w;
+			}
+		}
+		return null;
+	}
 	
 	public void setLevelSelected(Level level){
 		levelSelected = level;
