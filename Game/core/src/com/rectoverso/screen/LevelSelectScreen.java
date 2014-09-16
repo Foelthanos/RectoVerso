@@ -142,7 +142,7 @@ public class LevelSelectScreen extends AbstractScreen {
 		for(Level lvl : world.getLevels()){
 			LevelIconButton levelIcon = new LevelIconButton();
 			switch(lvl.getType()){
-			case normal:
+			case NORMAL:
 				levelIcon.create(i, 0, 2);
 				i+=2;
 				break;
@@ -207,12 +207,12 @@ public class LevelSelectScreen extends AbstractScreen {
 			icon.render();
 			if (icon.isColliding(Gdx.input.getX(), Gdx.input.getY())){
 				if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-					//on sélectionne un niveau
+					//on sï¿½lectionne un niveau
 					Gdx.app.log(RVGame.LOG, "select level "+icon.getLevel().getName());
 					game.getLevelSelectManager().setLevelSelected(icon.getLevel());
 					icon.setState(IconState.SELECTED);
 					
-					//il faut déselectionner toute autre icone
+					//il faut dï¿½selectionner toute autre icone
 					for(LevelIconButton i : levelIcons){
 						if (i != icon){
 							if (i.getState() == IconState.SELECTED){
@@ -231,14 +231,14 @@ public class LevelSelectScreen extends AbstractScreen {
 		if (level != null && world != null){
 			String text = "";
 			switch(level.getType()){
-			case normal :
+			case NORMAL :
 				text = "chapitre";
 				break;
-			case secret :
+			case SECRET :
 				text = "secret";
 				break;
-			case movie :
-				text = "cinématique";
+			case MOVIE :
+				text = "cinÃ©matique";
 				break;
 			}
 			setLabelLevel(text+" "+level.getNumber()+" - "+level.getName());

@@ -65,7 +65,7 @@ public class LevelSelectManager {
 		    	    	 Level secret = new Level(
 		    	    			 secretCount, 
 		    	    			 secret_element.getAttribute("name"), 
-		    	    			 LevelType.secret,
+		    	    			 LevelType.SECRET,
 		    	    			 level_element.getBooleanAttribute("locked")
 		    	    			 );
 		    	    	 world.addLevel(secret);
@@ -88,7 +88,7 @@ public class LevelSelectManager {
 	    	     /*String level_number = level_element.getAttribute("number");
 	    	     String level_status = level_element.getAttribute("status");*/
 	    	     
-	    	     //parser les éléments et construire la carte
+	    	     //parser les Ã©lÃ©ments et construire la carte
 	    	     
 	    	 }
 		} catch (IOException e) {

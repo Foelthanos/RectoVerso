@@ -15,7 +15,7 @@ public class World {
 		this.name = name;
 	}
 	
-	public void addLevel (Level level){
+	public void addLevel(Level level){
 		this.levels.add(level);
 	}
 	
@@ -38,12 +38,12 @@ public class World {
 	}
 	private void unlock(){
 		this.locked = false;
-		//quand on d�bloque un monde, logiquement, le premier niveau l'est aussi
+		//quand on débloque un monde, logiquement, le premier niveau l'est aussi
 		levels.get(0).setLocked(false);
 	}
 	private void lock(){
 		this.locked = true;
-		//Quitte � bloquer un monde, on bloque aussi les niveaux qui s'y trouve
+		//Quitter à bloquer un monde, on bloque aussi les niveaux qui s'y trouve
 		for (Level lvl : levels){
 			lvl.setLocked(true);
 		}

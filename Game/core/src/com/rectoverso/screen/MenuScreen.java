@@ -119,7 +119,7 @@ public class MenuScreen extends AbstractScreen {
 					int button )
 			{
 				super.touchUp(event, x, y, pointer, button);
-				game.setScreen(game.getGameScreen(null));
+				game.setScreen(game.getCreditScreen());
 			}
 		} );
 		table.add(creditButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();

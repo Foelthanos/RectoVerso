@@ -25,19 +25,17 @@ public class GameRenderer {
 	private GameController gController;
 
 	private TextureAtlas atlas;
-	private ShapeRenderer shapeRenderer;
-	//private SpriteBatch spriteBatch;
+	private SpriteBatch spriteBatch;
 	
 	private Hashtable<TileContent, TextureRegion> textureMap = new Hashtable<TileContent, TextureRegion>();
 	
 	public GameRenderer(GameController gController){
-		//this.spriteBatch = new SpriteBatch();
+		this.spriteBatch = new SpriteBatch();
 
 		this.gController = gController;
 		 
 		this.gController.getCamera().setToOrtho(true, 800, 600);
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(this.gController.getCamera().combined);
+        this.spriteBatch.setProjectionMatrix(this.gController.getCamera().combined);
 		
         //this.initTextureMap();
         
@@ -50,6 +48,7 @@ public class GameRenderer {
 		atlas = new TextureAtlas(Gdx.files.internal("images-atlases/pages.atlas"));
 		
 		this.textureMap.put(TileContent.BASE_GRASSGROUND, new TextureRegion(atlas.findRegion("")));
+		this.textureMap.put(TileContent.BASE_TECHNOGROUND, new TextureRegion(atlas.findRegion("")));
 	}
 
 	public void render() {
@@ -62,43 +61,25 @@ public class GameRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /*
-         * 2. We draw the Filled rectangle
+         * 2. We draw the ground
          */
+        
+        spriteBatch.begin();
+        
+        this.drawGround();
+        
+        spriteBatch.end();
 
-        // Tells shapeRenderer to begin drawing filled shapes
-        shapeRenderer.begin(ShapeType.Filled);
-
-        // Chooses RGB Color of 87, 109, 120 at full opacity
-        shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-
-        // Draws the rectangle from myWorld (Using ShapeType.Filled)
-        shapeRenderer.rect(gController.getRect().x, gController.getRect().y,
-        		gController.getRect().width, gController.getRect().height);
-
-        // Tells the shapeRenderer to finish rendering
-        // We MUST do this every time.
-        shapeRenderer.end();
-
-        /*
-         * 3. We draw the rectangle's outline
-         */
-
-        // Tells shapeRenderer to draw an outline of the following shapes
-        shapeRenderer.begin(ShapeType.Line);
-
-        // Chooses RGB Color of 255, 109, 120 at full opacity
-        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-
-        // Draws the rectangle from myWorld (Using ShapeType.Line)
-        shapeRenderer.rect(gController.getRect().x, gController.getRect().y,
-        		gController.getRect().width, gController.getRect().height);
-
-        shapeRenderer.end();
 	}
 	
+	private void drawGround() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void dispose() {
 		// TODO Auto-generated method stub
-		//if( spriteBatch != null ) spriteBatch.dispose();
+		if( spriteBatch != null ) spriteBatch.dispose();
 		if( atlas != null ) atlas.dispose();
 
 	}

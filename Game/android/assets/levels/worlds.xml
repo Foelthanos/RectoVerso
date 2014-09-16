@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <worlds count="4">
     <world name="Prologue" locked="false">
-        <level type="normal" name="Des pierres oubliées" locked="false"></level>
-        <level type="normal" name="Sous les ombres" locked="false">
+        <level type="NORMAL" name="Des pierres oubliées" locked="false"></level>
+        <level type="NORMAL" name="Sous les ombres" locked="false">
             <secret name="Tout ce qui brille..." locked="true"></secret>
         </level>
-        <level type="normal" name="Necto" locked="true"></level>
+        <level type="NORMAL" name="Necto" locked="true"></level>
     </world>
     <world name="Aube" locked="false">
         <level type="normal" name="Recto Verso" locked="false"></level>

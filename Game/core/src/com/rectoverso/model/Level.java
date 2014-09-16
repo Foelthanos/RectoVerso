@@ -1,13 +1,15 @@
 package com.rectoverso.model;
 
+import java.util.ArrayList;
+
 public class Level {
 
 
 	public enum LevelState {
-		PRINTED,LOADED
+		PRINTED,LOADED;
 	};
 	public enum LevelType {
-		normal,secret,movie
+		NORMAL,SECRET,MOVIE;
 	};
 	
 	private LevelState state = LevelState.PRINTED;
@@ -16,6 +18,9 @@ public class Level {
 	private String name;
 	private String background;
 	private boolean locked = true;
+	private ArrayList<Map> maps = new ArrayList<Map>(2);
+	private MergedMap mergedMap;
+	private ArrayList<Rooting> routings = new ArrayList<Rooting>(8);
 	
 	public Level(int number, String name , LevelType type, boolean locked){
 		this.number = number;
@@ -31,14 +36,16 @@ public class Level {
 		else if (!this.locked && lock){
 			lock();
 		}
-		
 	}
+	
 	public boolean isLocked(){
 		return locked;
 	}
+	
 	private void unlock(){
 		this.locked  = false;
 	}
+	
 	private void lock(){
 		this.locked = true;
 	}
@@ -46,9 +53,11 @@ public class Level {
 	public String getName(){
 		return name;
 	}
+	
 	public int getNumber(){
 		return number;
 	}
+	
 	public LevelType getType(){
 		return type;
 	}
