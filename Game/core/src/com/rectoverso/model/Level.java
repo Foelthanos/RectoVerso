@@ -14,6 +14,7 @@ public class Level {
 	private int number;
 	private LevelType type;
 	private String name;
+	private String background;
 	private boolean locked = true;
 	
 	public Level(int number, String name , LevelType type, boolean locked){

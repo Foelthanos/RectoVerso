@@ -18,7 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.rectoverso.RVGame;
+import com.rectoverso.controllers.GameController;
 import com.rectoverso.controllers.GameRenderer;
+import com.rectoverso.model.Level;
 
 public class GameScreen extends AbstractScreen implements InputProcessor{
 
@@ -26,12 +28,30 @@ public class GameScreen extends AbstractScreen implements InputProcessor{
 	
 	//private GameController gController;
 	private GameRenderer gRenderer;
+	private GameController gController;
 	
-	public GameScreen(RVGame game) {
+	public GameScreen(RVGame game, Level level) {
 		super(game);
 		// TODO Auto-generated constructor stub
+		this.gController = new GameController(level);
+		this.gRenderer = new GameRenderer(this.gController);
 	}
 
+	@Override
+    public void render(float delta) {
+		gController.update(delta);
+        gRenderer.render();
+    }
+	
+	public void show(){
+		super.show();
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(this);
+
+		Gdx.input.setInputProcessor(multiplexer);
+	}
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub

@@ -1,4 +1,4 @@
-package com.rectoverso.model;
+ï»¿package com.rectoverso.model;
 
 import java.util.ArrayList;
 
@@ -26,6 +26,7 @@ public class World {
 	public boolean isLocked(){
 		return locked;
 	}
+
 	public void setLocked(boolean lock){
 		if(this.locked && !lock){
 			unlock();
@@ -37,12 +38,12 @@ public class World {
 	}
 	private void unlock(){
 		this.locked = false;
-		//quand on débloque un monde, logiquement, le premier niveau l'est aussi
+		//quand on dï¿½bloque un monde, logiquement, le premier niveau l'est aussi
 		levels.get(0).setLocked(false);
 	}
 	private void lock(){
 		this.locked = true;
-		//Quitte à bloquer un monde, on bloque aussi les niveaux qui s'y trouve
+		//Quitte ï¿½ bloquer un monde, on bloque aussi les niveaux qui s'y trouve
 		for (Level lvl : levels){
 			lvl.setLocked(true);
 		}
