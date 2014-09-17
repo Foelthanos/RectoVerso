@@ -8,10 +8,10 @@
         <level type="NORMAL" name="Necto" locked="true"></level>
     </world>
     <world name="Aube" locked="false">
-        <level type="normal" name="Recto Verso" locked="false"></level>
-        <level type="normal" name="Deux faces d'une seule piece" locked="false"></level>
-        <level type="normal" name="Divergeance chaotique" locked="true"></level>
-        <level type="normal" name="Vaincre sans péril" locked="true"></level>
+        <level type="NORMAL" name="Recto Verso" locked="false"></level>
+        <level type="NORMAL" name="Deux faces d'une seule piece" locked="false"></level>
+        <level type="NORMAL" name="Divergeance chaotique" locked="true"></level>
+        <level type="NORMAL" name="Vaincre sans péril" locked="true"></level>
     </world>
     <world name="Zenith" locked="true">
         

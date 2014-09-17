@@ -20,7 +20,7 @@ public class Level {
 	private boolean locked = true;
 	private ArrayList<Map> maps = new ArrayList<Map>(2);
 	private MergedMap mergedMap;
-	private ArrayList<Rooting> routings = new ArrayList<Rooting>(8);
+	//private ArrayList<Rooting> routings = new ArrayList<Rooting>(8);
 	
 	public Level(int number, String name , LevelType type, boolean locked){
 		this.number = number;

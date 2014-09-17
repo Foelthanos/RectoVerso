@@ -48,13 +48,13 @@ public class LevelIconButton implements ApplicationListener {
     	}
     	else{
     		switch(level.getType()){
-    		case movie:
+    		case MOVIE:
     			text = "C-";
     			break;
-    		case secret:
+    		case SECRET:
     			text = "S-";
     			break;
-    		case normal:
+    		case NORMAL:
     			text = "";
     			break;
     		}
