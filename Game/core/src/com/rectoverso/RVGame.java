@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.rectoverso.controllers.LevelEditorManager;
 import com.rectoverso.controllers.LevelManager;
 import com.rectoverso.controllers.LevelSelectManager;
 import com.rectoverso.controllers.MusicManager;
@@ -34,6 +35,7 @@ public class RVGame extends Game {
 	private PreferencesManager preferencesManager;
 	private LevelManager levelManager;
 	private LevelSelectManager levelSelectManager;
+	private LevelEditorManager levelEditorManager;
 	private MusicManager musicManager;
 	private SoundManager soundManager;
 	
@@ -52,6 +54,11 @@ public class RVGame extends Game {
 		return levelSelectManager;
 	}
 
+	public LevelEditorManager getLevelEditorManager()
+	{
+		return levelEditorManager;
+	}
+	
 	public MusicManager getMusicManager()
 	{
 		return musicManager;
@@ -123,6 +130,9 @@ public class RVGame extends Game {
 		levelSelectManager = new LevelSelectManager();
 		levelSelectManager.parseWorlds();
 		levelSelectManager.setSelectedWorld(0);
+		
+		// create the level select manager
+		levelEditorManager = new LevelEditorManager();
 
 		fps = new FPSLogger();	
 	}

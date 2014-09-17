@@ -21,20 +21,19 @@ import com.rectoverso.utils.DefaultInputListener;
 
 public class LevelEditorScreen extends AbstractScreen {
 
-	private final int BUTTONW = 150; 
-	private final int BUTTONH = 25;
+	private final int PANELW = 200; 
+	private final int BUTTONH = 40;
 	
 	private SpriteBatch batch;
 	private TextureRegion menuImage;
 	
-	private List<String> tileList;
-	private List<String> bgList;
-	private List<String> objectList;
-	//private SelectBox<String> tileSel;
 	
-	private Label lab_tile = new Label("Tuile : ", this.getSkin());
-	private Label lab_bg = new Label("Backdround : ", this.getSkin());
-	private Label lab_obj = new Label("Objet : ", this.getSkin());
+	
+	private Table tableTiles = new Table(getSkin());
+	private Table tableObjects = new Table(getSkin());
+	private Table tableDecors = new Table(getSkin());
+	private Table tableBackground = new Table(getSkin());
+	private ScrollPane scrollPaneItems;
 
 	public LevelEditorScreen(RVGame game) {
 		super(game);
@@ -48,21 +47,15 @@ public class LevelEditorScreen extends AbstractScreen {
 		/*TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("images-atlases/pages.atlas"));
         menuImage = atlas.findRegion("titleScreenImage");*/
 		batch = this.getBatch();
-
-		tileList = new List<String>(getSkin());
-		bgList = new List<String>(getSkin());
-		objectList = new List<String>(getSkin());
 		
-		tileList.setItems(new String[] {"Tuile_0", "Tuile_1", "Tuile_2", "Tuile_3", "Tuile_4"});
-		bgList.setItems(new String[] {"Background_0","Background_1","Background_2","Background_3"});
-		objectList.setItems(new String[] {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10"});
 		
 		/*tileList.getSelection().setMultiple(false);
 		tileList.getSelection().setRequired(false);*/
 		
-		ScrollPane scrollPane = new ScrollPane(tileList, getSkin());
-		ScrollPane scrollPane2 = new ScrollPane(bgList, getSkin());
-		ScrollPane scrollPane3 = new ScrollPane(objectList, getSkin());
+		
+		
+		
+		
 		//scrollPane.setFlickScroll(false);
 		
 		/*tileSel = new SelectBox<String>(getSkin(),);
@@ -145,24 +138,96 @@ public class LevelEditorScreen extends AbstractScreen {
                 game.setScreen( new MenuScreen( game ) );
             }
         });
+        
+     // register the manager button
+        TextButton propertiesButton = new TextButton("Proprietes", getSkin());
+        propertiesButton.addListener( new DefaultInputListener() {
+            @Override
+            public void touchUp(
+                InputEvent event,
+                float x,
+                float y,
+                int pointer,
+                int button )
+            {
+                super.touchUp( event, x, y, pointer, button );
+                game.getSoundManager().play(RVSound.CLICK );
+            }
+        
+        });
 		
+        TextButton tileButton = new TextButton("Tiles", getSkin());
+        tileButton.addListener( new DefaultInputListener() {
+            @Override
+            public void touchUp(
+                InputEvent event,
+                float x,
+                float y,
+                int pointer,
+                int button )
+            {
+                super.touchUp( event, x, y, pointer, button );
+                game.getSoundManager().play(RVSound.CLICK );
+                scrollPaneItems.setWidget(tableTiles);
+            }
+        });
 		
+        TextButton BGButton = new TextButton("BGs", getSkin());
+        BGButton.addListener( new DefaultInputListener() {
+            @Override
+            public void touchUp(
+                InputEvent event,
+                float x,
+                float y,
+                int pointer,
+                int button )
+            {
+                super.touchUp( event, x, y, pointer, button );
+                game.getSoundManager().play(RVSound.CLICK );
+                scrollPaneItems.setWidget(tableBackground);
+            }
+        });
+        
+        TextButton decorButton = new TextButton("Dec", getSkin());
+        decorButton.addListener( new DefaultInputListener() {
+            @Override
+            public void touchUp(
+                InputEvent event,
+                float x,
+                float y,
+                int pointer,
+                int button )
+            {
+                super.touchUp( event, x, y, pointer, button );
+                game.getSoundManager().play(RVSound.CLICK );
+                scrollPaneItems.setWidget(tableDecors);
+            }
+        });
+        
+        TextButton objectButton = new TextButton("Obj", getSkin());
+        objectButton.addListener( new DefaultInputListener() {
+            @Override
+            public void touchUp(
+                InputEvent event,
+                float x,
+                float y,
+                int pointer,
+                int button )
+            {
+                super.touchUp( event, x, y, pointer, button );
+                game.getSoundManager().play(RVSound.CLICK );
+                scrollPaneItems.setWidget(tableObjects);
+            }
+        });
+        
 		Table table = super.getTable();
-		table.left().padRight(0).top().padTop(0);
-		/*table.add(loadButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).right();
+		table.left().padRight(0).top().padTop(this.BUTTONH);
+		table.add(tileButton).size(this.PANELW/4, this.BUTTONH).uniform().spaceBottom(0).left();
+		table.add(BGButton).size(this.PANELW/4, this.BUTTONH).uniform().spaceBottom(0).left();
+		table.add(decorButton).size(this.PANELW/4, this.BUTTONH).uniform().spaceBottom(0).left();
+		table.add(objectButton).size(this.PANELW/4, this.BUTTONH).uniform().spaceBottom(0).left();
 		table.row();
-		table.add(newButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).left();
-		table.row();
-		table.add(saveButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).right();
-		table.row();*/
-		table.add(lab_tile).spaceBottom(100);
-		table.row();
-		table.add(scrollPane).size(this.BUTTONW, this.BUTTONH*14).top().spaceBottom(0).right();
-		table.row();
-		table.add(lab_bg).spaceBottom(0);
-		table.row();
-		table.add(scrollPane2).size(this.BUTTONW, this.BUTTONH*4).top().spaceBottom(0).right();
-		table.row();
+		
 		
 		//table.add(tileList).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom((tileList.getItems().size - 1)*this.BUTTONH).right();
 		/*for(int i = 0 ; i < tileList.getItems().size ; i++){
@@ -175,21 +240,95 @@ public class LevelEditorScreen extends AbstractScreen {
 		if( RVGame.DEV_MODE ) {
             table2.debug();
         }
-		table2.right().padRight(0).top().padTop(0);
-		table2.add(newButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).left();
-		table2.row();
-		table2.add(loadButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).right();
-		table2.row();
-		table2.add(saveButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).right();
-		table2.row();
-		table2.add(lab_obj).spaceBottom(100);
-		table2.row();
-		table2.add(scrollPane3).size(this.BUTTONW, this.BUTTONH*14).top().spaceBottom(0).right();
-		table2.row();
-		table2.add(testButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).right();
-		table2.row();
-		table2.add(backButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(0).right();
-	
+		table2.right().padRight(0).top();
+		table2.add(backButton).size(Gdx.graphics.getWidth()/5, this.BUTTONH).uniform().right();
+		table2.add(propertiesButton).size(Gdx.graphics.getWidth()/5, this.BUTTONH).uniform().right();
+		table2.add(loadButton).size(Gdx.graphics.getWidth()/5, this.BUTTONH).uniform().right();
+		table2.add(saveButton).size(Gdx.graphics.getWidth()/5, this.BUTTONH).uniform().right();
+		table2.add(newButton).size(Gdx.graphics.getWidth()/5, this.BUTTONH).uniform().left();
+		
+		//CHARGER LES OBJETS
+		this.loadTiles();
+		this.loadBackGrounds();
+		this.loadDecors();
+		this.loadObjects();
+		
+		this.scrollPaneItems = new ScrollPane(this.tableBackground, getSkin());
+		this.scrollPaneItems.setFlickScroll(true);
+		this.scrollPaneItems.setFadeScrollBars(false);
+		//ScrollPane scrollPaneTile = new ScrollPane(table2, getSkin());
+		
+		Table table3 = new Table(getSkin());
+		table3.setFillParent(true);
+		stage.addActor(table3);
+		if( RVGame.DEV_MODE ) {
+            table3.debug();
+        }
+		table3.left().padRight(0).top().padTop(this.BUTTONH*5);
+		table3.add(scrollPaneItems).size(this.PANELW+25, Gdx.graphics.getHeight() - this.BUTTONH*6).bottom().spaceBottom(0).left();
+		table3.row();
+		table3.add(testButton).size(this.PANELW, this.BUTTONH).uniform().left();
 	}
 
+	private void loadTiles(){
+		if( RVGame.DEV_MODE ) {
+			this.tableTiles.debug();
+		}
+		this.tableTiles.left().top();
+
+		for (int i = 0; i < 15;i++){
+			for (int j = 0; j < 4;j++){
+				TextButton button = new TextButton(i + ":" + j, getSkin());
+				this.tableTiles.add(button).size(PANELW/4,this.BUTTONH).bottom().left();
+			}
+			this.tableTiles.row();
+		}
+        
+	}
+	
+	private void loadObjects(){
+		if( RVGame.DEV_MODE ) {
+			this.tableObjects.debug();
+		}
+		this.tableObjects.left().top();
+
+		for (int j = 0; j < 4;j++){
+			TextButton button = new TextButton("objet qui fait ça " + j, getSkin());
+			this.tableObjects.add(button).size(PANELW,this.BUTTONH/2).bottom().left();
+			this.tableObjects.row();
+		}
+		
+        
+	}
+	
+	private void loadDecors(){
+		if( RVGame.DEV_MODE ) {
+			this.tableDecors.debug();
+		}
+		this.tableDecors.left().top();
+
+		for (int i = 0; i < 15;i++){
+			for (int j = 0; j < 3;j++){
+				TextButton button = new TextButton(i + ":" + j, getSkin());
+				this.tableDecors.add(button).size(PANELW/3,this.BUTTONH*2).bottom().left();
+			}
+			this.tableDecors.row();
+		}
+        
+	}
+	
+	private void loadBackGrounds(){
+		if( RVGame.DEV_MODE ) {
+			this.tableBackground.debug();
+		}
+		this.tableBackground.left().top();
+
+		for (int j = 0; j < 15;j++){
+			TextButton button = new TextButton(j+"", getSkin());
+			this.tableBackground.add(button).size(PANELW,this.BUTTONH*2).bottom().left();
+			this.tableBackground.row();
+		}
+		this.tableBackground.row();
+        
+	}
 }

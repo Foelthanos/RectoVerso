@@ -7,6 +7,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
@@ -28,6 +30,10 @@ public class LevelIconButton implements ApplicationListener {
     private Texture texture;
     private Sprite sprite;
     
+    private BitmapFont font = new BitmapFont(Gdx.files.internal("skin/default.fnt"),
+	         Gdx.files.internal("skin/default.png"), false);
+    private String text = "00000";
+    
     private int posX=0;
     private int posY=0;
     private int size=1;
@@ -38,12 +44,27 @@ public class LevelIconButton implements ApplicationListener {
     	
     	if(level.isLocked()){
     		state = IconState.LOCKED;
-    	}
-    	else if (selected){
-    		state = IconState.SELECTED;
+    		text = "";
     	}
     	else{
-    		state = IconState.IDLE;
+    		switch(level.getType()){
+    		case movie:
+    			text = "C-";
+    			break;
+    		case secret:
+    			text = "S-";
+    			break;
+    		case normal:
+    			text = "";
+    			break;
+    		}
+    		text += level.getNumber();
+    		if (selected){
+    			state = IconState.SELECTED;
+	    	}
+	    	else{
+	    		state = IconState.IDLE;
+	    	}
     	}
     	renderState();
     }
@@ -64,11 +85,13 @@ public class LevelIconButton implements ApplicationListener {
     	if (d < 16*(this.size)){
     		texture = new Texture(Gdx.files.internal("hud/level_icon_select.png"));
     		sprite.setTexture(texture);
+    		font.setColor(0.0f, 0.0f, 0.0f, 1.0f);
     		return true;
     	}
     	else{
     		texture = new Texture(Gdx.files.internal("hud/level_icon_idle.png"));
     		sprite.setTexture(texture);
+    		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
     		return false;
     	}
     	
@@ -86,16 +109,17 @@ public class LevelIconButton implements ApplicationListener {
     
     @Override
 	public void create() {
-    	
     	batch = new SpriteBatch();
+    	
+    	pixmap = new Pixmap(64, 64, Pixmap.Format.RGB888);
     	
     	texture = new Texture(Gdx.files.internal("hud/level_icon_idle.png"));
     	sprite = new Sprite(texture);
     	renderState();
     	
     	sprite.setOrigin(sprite.getOriginX(), 48);
-    	
     	sprite.setScale(this.size);
+    	
     	calculatePosition();
 	}
 
@@ -111,6 +135,11 @@ public class LevelIconButton implements ApplicationListener {
         
         batch.begin();
         sprite.draw(batch);
+        //font.draw(batch, text, sprite.getX()+TILE_WIDTH/2, sprite.getY()+40 - (this.size-1)*TILE_HEIGHT/2);
+        font.drawMultiLine(batch, text, 
+        		sprite.getX()+TILE_WIDTH/2, 
+        		sprite.getY()+40- (this.size-1)*TILE_HEIGHT/2,
+        		0,HAlignment.CENTER);
         batch.end();
     }
 
@@ -119,9 +148,11 @@ public class LevelIconButton implements ApplicationListener {
     	switch(state){
     	case IDLE:
     		texture = new Texture(Gdx.files.internal("hud/level_icon_idle.png"));
+    		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
     		break;
     	case SELECTED:
     		texture = new Texture(Gdx.files.internal("hud/level_icon_select.png"));
+    		font.setColor(0.0f, 0.0f, 0.0f, 1.0f);
     		break;
     	case LOCKED:
     		texture = new Texture(Gdx.files.internal("hud/level_icon_locked.png"));
