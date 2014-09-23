@@ -3,4 +3,4 @@ RectoVerso - Conception graphique
 
 # ToDoList
 
--[] Logo
+- [ ] Logo
