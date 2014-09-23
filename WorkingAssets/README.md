@@ -1,2 +1,6 @@
-RectoVerso
-==========
+RectoVerso - Conception graphique
+=================================
+
+# ToDoList
+
+-[] Logo
