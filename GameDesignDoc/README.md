@@ -1,37 +1,35 @@
 RectoVerso
 ==========
-Puzzle/Réflexion/Aventure - 1 Joueur pour PC
+Puzzle/Aventure - 1 Joueur pour PC
 
-Pitch
+PITCH
 -------------
-Armé d'un plieur de Monde, le joueur devra utiliser ce dernier afin de modifier le terrain à sa guise telle une carte et alterner entre monde recto (Nature) et monde verso (Technologie) afin de résoudre des énigmes.
+Armée de Necto, le plieur de Monde, Lyf devra utiliser ce dernier afin d'agencer le terrain à sa guise telle une carte et alterner entre les deux faces, représentant Nature et Technologie, afin de résoudre des énigmes.
 
 Background
 -------------
-Livyna vit dans un monde où les hommes sont en paix avec la Nature mais où règne guerres et violences entre les peuples, personne ne trouve comment résoudre les différends qui les déchirent. 
-Comme il s'agit une fille animée par le bien, elle pense avoir trouvé la solution en entendant parler du Lieur de Mondes dans l'un de ses livres, artéfact sensé pouvoir lier toutes choses séparées. Elle part alors à sa quête, mais ne le trouve pas.
-Quand alors qu'elle ne s'y attendait plus, elle tombe dans une crevasse sans fond. Une fois arrivée sans une égratignure en bas, elle traverse les cavernes et tombe sur un objet brilliant, 
-boule creuse sculptée de formes celtique. Elle la touche et rencontre "le dragon dont j'ai perdu le nom" qui lui apprend qu'elle est là où aucun humain ne devrait être, sa présence même au 
-sein de ce lieu a fait se déchirer la toile de l'espace-temps. Là où dans son monde, la Nature et les Humains cohabitaient joyeusement, le monde qu'elle vient de créer voit s'opposer ses 
-deux entités. 
-*ô rage, ô desespoir, comment remettre tout ça en place ?* *tiens je te file le pouvoir du pliage de la mort qui tue, fais en sorte que les deux mondes à nouveau se cotoient sinon ils courent à leurs pertes, perso moi j'ai pas le temps j'ai mieux à faire sur Saturne*
-Elle se retrouve alors affublée du pouvoir de plier le monde localement à sa guise. Grâce à ce pouvoir, elle peut alors voyager d'un univers à un autre sans difficulté et joindre les deux 
-mondes pour parcourir le chemin qui le menera jusqu'"au sens de l'univers"/(LA MONTAGNE DU DESTIN !!!!)/sa destination.
+Le monde se détruit de toutes parts, devant cette échec des humains à s'occuper de leur Terre, les dieux nomment une partie de l'humanité pour devenir la caste des Lieurs. Grâce au pouvoir de plier l'espace, ils rendent à ce monde, à force de pliages, un équilibre qu'ils devront sceller à tout jamais en se sacrifiant pour la race humaine. De ce sacrifice émerge le Lieur Ultime, le Necto. Enfermé dans une grotte dont la localisation est tenue secrète, il reposera à tout jamais en ces lieux, perpétuant la paix et l'équilibre des peuples et des mondes. La descendance de chaque Lieur se voit attribuer une marque tatoué sur la peau et un livre afin de transmettre le passé aux nouvelles générations.
 
-Mécanique de pliage
-====================
+Des siècles plus tard, dans un monde où l'harmonie et l'équilibre est toujours de mise, les faits sont devenus légendes et le passé n'est plus connu de personne. Lyf, jeune fille abandonnée dès sa naissance devant les portes de la Grande Bibliothèque, tournent les pages du livre qui l'accompagnait dans le couffin. Elle n'y voit que charabia et symboles, dont un qu'elle connaît bien, car elle le porte sur la peau. Elle ne connaît ni son passé ni ses parents mais passe son temps à se promener en quête de réponses.
+Un jour où elle avait marché plus loin que d'habitude, elle tombe sur une stèle portant un sceau identique à son tatouage. Elle y pénètre et rencontre alors le Necto, qui se réveille de son infini sommeil à son arrivée. Ses multiples personnalités parlent en une seule voix vrombissante. Lyf veut tout leur demandait, tout savoir, tout connaître, mais la puissance magique de l'artefact commence à charger ses outils d'une puissance magique incroyable. Sa lanterne explose, sa pioche mécanique tourne à une vitesse folle, son blasteur finit par décharger toute cette puissance en un rayon qui va heurter l'artefact en son centre. La caverne s'ébranle sous le poids du choc et tout devient sombre.
 
-plusieurs possiblités :
-    - carte rouge (support physique porté par le joueur qu'il peut plier) accessible via un e interface ou touche.
-    - representation mentale du pouvoir en offrant une vue qui s'éloigne et montre l'intégralité du niveau. Slow-motion. Lévitation de la bonne femme en mode transe legerement sur-élevée, cheveux comme si ils étaient dans de l'eau, (cf Kida dans Atlantide, le meilleur Disney du monde) le bras allongé, le poing ouvert vers le haut dirigé vers le coin que l'on tire. Elle plierait le bras progressivement selon le pourcentage de terrain que l'on "tire" vers elle.
+Le Necto est brisé ... les personnalités qui le composaient répandues à travers le monde, une nouvelle fois détruit de toutes parts. Des débris sort une voix, une personnalité qui sommera Lyf de réparer le merdier qu'elle vient de faire. Et ainsi commencera son périple à travers une Terre détruite et coupée en deux.
 
-Mécaniques de narration
+MECANIQUE DE PLIAGE
+-------------
+
+En appuyant sur un touche (ESPACE), le niveau dézoomerait, nous offrant une vue sur l'intégralité de celui-ci. L'écran prendrait alors une teinte désaturé/marron clair, ajoutant un effet carte au niveau.
+Lévitation de Lyf en mode transe legerement sur-élevée, cheveux comme si ils étaient dans de l'eau, (comme Kida dans Atlantide).
+
+
+==MECANIQUE DE NARRATION
 ==================
 
 Proposition : Stèles de l'Ancien. Stèles optionnelles trouvables uniquement dans le monde Technologique (car pas d'homme dans l'autre pour écrire). Genre de petits temples très trad pour un monde aussi techno. Donc repérable facilement.
 Elle relate un bout de l'histoire en débutant toujours par "Du temps où l'Homme et la Nature étaient liés, ...", si on découpe en chapitre, puis en niveaux, à la manière d'un SuperMeatBoy, je pensais en mettre une ou deux par chapitre, 5 lignes concises rapides à lire, pas obligatoires.
 
-Chartes Graphiques et Sonores des mondes
+
+==CHARTES GRAPHIQUE ET SONORE
 ==========
 
 __MONDE TECHNOLOGIQUE__
@@ -50,7 +48,7 @@ Bruits de cours d'eau, d'oiseaux. sons primitifs(percus tribales, shakers à perl
 
 _Lorsque que les deux décors sont ensemble sur la map visible, le pourcentage de présence sonore est égal à la présence visuelle. Les deux devront donc se mixer habilement._
 
-OBJETS DU DECOR
+==OBJETS DU DECOR
 ===========
 
 Objets du décor à fonction similaire présents dans les deux mondes
@@ -80,7 +78,7 @@ __MONDE NATUREL:__
 Résistance au feu temporaire, accès à des zones cachées
 Armure de fourmis (double le poids), plaque de pression speciale
 
-SCORING
+==SCORING
 ==========
 
 Récupération en fin de niveau d'un bout de Lieur.
