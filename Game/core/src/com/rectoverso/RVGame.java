@@ -23,14 +23,25 @@ import com.rectoverso.screen.SplashScreen;
  * Main class of the game. Give methods that connect the screens with
  * all the managers of the game. Give standard gamestate methods.
  * @author Brahim "Violacrimosum" Berkati
- * @version 0.3
+ * @version 0.5
  */
 public class RVGame extends Game {
 	private FPSLogger fps;
 
+	/**
+	 * Static constant that give the name of game
+	 */
 	public static final String LOG = RVGame.class.getSimpleName();
+	
+	/**
+	 * Static boolean that activate the developers mode.
+	 */
 	public static final boolean DEV_MODE = true;
-	public static final String VER = "0.0.3a";
+	
+	/**
+	 * Static constant that give the actual version of the game
+	 */
+	public static final String VER = "0.2.3a";
 
 	private PreferencesManager preferencesManager;
 	private LevelManager levelManager;
@@ -39,7 +50,8 @@ public class RVGame extends Game {
 	private MusicManager musicManager;
 	private SoundManager soundManager;
 	
-
+	// -------------- Managers methods ---------------
+	
 	public PreferencesManager getPreferencesManager()
 	{
 		return preferencesManager;
@@ -69,7 +81,7 @@ public class RVGame extends Game {
 		return soundManager;
 	}
 
-	// Screen methods
+	// --------------- Screen methods -------------------
 
 	public GameScreen getGameScreen(Level level)
 	{
@@ -110,28 +122,28 @@ public class RVGame extends Game {
 	public void create () {
 		Gdx.app.log(RVGame.LOG, "Creating game on " + Gdx.app.getType());
 
-		// create the preferences manager
+		// Create the preferences manager
 		preferencesManager = new PreferencesManager();
 
-		// create the music manager
+		// Create the music manager
 		musicManager = new MusicManager();
 		musicManager.setVolume(preferencesManager.getVolume());
 		musicManager.setEnabled(preferencesManager.isMusicEnabled());
 
-		// create the sound manager
+		// Create the sound manager
 		soundManager = new SoundManager();
 		soundManager.setVolume(preferencesManager.getVolume());
 		soundManager.setEnabled(preferencesManager.isSoundEnabled());
 
-		// create the level manager
+		// Create the level manager
 		levelManager = new LevelManager();
 		
-		// create the level select manager
+		// Create the level select manager
 		levelSelectManager = new LevelSelectManager();
 		levelSelectManager.parseWorlds();
 		levelSelectManager.setSelectedWorld(0);
 		
-		// create the level select manager
+		// Create the level editor manager
 		levelEditorManager = new LevelEditorManager();
 
 		fps = new FPSLogger();	
@@ -140,8 +152,6 @@ public class RVGame extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
-		// You can use this function to print stuff to the console. 
-		// It's very useful to use to track what's happening in your game.
 		Gdx.app.log(RVGame.LOG, "Disposed");
 	}
 
@@ -153,10 +163,13 @@ public class RVGame extends Game {
 		super.resize(width, height);
 		Gdx.app.log(RVGame.LOG, "Resizing game to: " + width + " x " + height);
 
-		// show the splash screen when the game is resized for the first time;
-		// this approach avoids calling the screen's resize method repeatedly
-		if(getScreen() == null ) {
-			if( DEV_MODE ) {
+		/* 
+		 * Show the splash screen when the game is resized for the first time.
+		 * This approach avoids calling the screen's resize method repeatedly.
+		 * if dev_mode is on, the game directly call the menu screen.
+		 */
+		if(getScreen() == null) {
+			if(DEV_MODE) {
 				setScreen(new MenuScreen(this));
 			} else {
 				setScreen(new SplashScreen(this));

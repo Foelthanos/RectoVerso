@@ -7,7 +7,8 @@ public class Tile {
 
 	public enum TileContent {
 		BASE_GRASSGROUND,
-		BASE_TECHNOGROUND;
+		BASE_TECHNOGROUND, 
+		NOTHING;
 	};
 
 	public enum TileCollision{
@@ -15,7 +16,7 @@ public class Tile {
 		COLLISION;
 	};
 
-	public static final float SIZE = 40f;
+	public static final float SIZE = 128f;
 
 	private TileContent content;
 	private TileCollision collision;
@@ -27,5 +28,23 @@ public class Tile {
 		this.position = pos;
 		this.collision = collision;
 		this.content = content;
+		this.bounds.height = Tile.SIZE;
+		this.bounds.width = Tile.SIZE;
+	}
+	
+	public TileContent getTileContent(){
+		return this.content;
+	}
+	
+	public TileCollision getTileCollision(){
+		return this.collision;
+	}
+	
+	public Vector2 getPosition(){
+		return this.position;
+	}
+	
+	public String toString(){
+		return "Tile at ("+this.position.x+","+this.position.y+")";
 	}
 }

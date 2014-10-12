@@ -1,0 +1,104 @@
+
+tileset.png
+size: 512,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+testGrassGround
+  rotate: false
+  xy: 2, 198
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+testHeroF00
+  rotate: false
+  xy: 260, 390
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF01
+  rotate: false
+  xy: 2, 2
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF02
+  rotate: false
+  xy: 132, 132
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF10
+  rotate: false
+  xy: 260, 324
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF11
+  rotate: false
+  xy: 294, 390
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF12
+  rotate: false
+  xy: 36, 2
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF20
+  rotate: false
+  xy: 166, 132
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF21
+  rotate: false
+  xy: 260, 258
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF22
+  rotate: false
+  xy: 294, 324
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF30
+  rotate: false
+  xy: 328, 390
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF31
+  rotate: false
+  xy: 70, 2
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testHeroF32
+  rotate: false
+  xy: 200, 132
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+testTechGround
+  rotate: false
+  xy: 2, 68
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1

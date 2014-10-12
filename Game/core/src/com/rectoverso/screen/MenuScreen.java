@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.rectoverso.RVGame;
+import com.rectoverso.controllers.LevelManager;
 import com.rectoverso.controllers.MusicManager.RVMusic;
 import com.rectoverso.controllers.SoundManager.RVSound;
 import com.rectoverso.utils.DefaultInputListener;
@@ -119,7 +120,8 @@ public class MenuScreen extends AbstractScreen {
 					int button )
 			{
 				super.touchUp(event, x, y, pointer, button);
-				game.setScreen(game.getCreditScreen());
+				//game.setScreen(game.getCreditScreen());
+				game.setScreen(game.getGameScreen(LevelManager.loadLevel(Gdx.files.internal("levels/level1.xml"))));
 			}
 		} );
 		table.add(creditButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();

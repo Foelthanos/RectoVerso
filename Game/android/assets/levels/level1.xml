@@ -1,1 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<level type="NORMAL" name="Des pierres oubliées" locked="false" scaleX="2" scaleY="2" background="" number="1">
+    <player posX="32" posY="32">
+        
+    </player>
+    <map side="RECTO">
+        <tile contentType="BASE_GRASSGROUND" collisionType="COLLISION" posX="64" posY="0">         
+        </tile>
+        <tile contentType="BASE_GRASSGROUND" collisionType="NO_COLLISION" posX="128" posY="32">  
+        </tile>
+        <tile contentType="BASE_GRASSGROUND" collisionType="NO_COLLISION" posX="0" posY="32">  
+        </tile>
+        <tile contentType="BASE_GRASSGROUND" collisionType="NO_COLLISION" posX="64" posY="64"> 
+        </tile>
+    </map> 
+    <map side="VERSO">
+        <tile contentType="BASE_TECHNOGROUND" collisionType="NO_COLLISION" posX="0" posY="0">   
+        </tile>
+        <tile contentType="BASE_TECHNOGROUND" collisionType="NO_COLLISION" posX="0" posY="1">
+        </tile>
+        <tile contentType="BASE_TECHNOGROUND" collisionType="NO_COLLISION" posX="1" posY="0">   
+        </tile>
+        <tile contentType="BASE_TECHNOGROUND" collisionType="NO_COLLISION" posX="1" posY="1">  
+        </tile>
+    </map> 
+</level>

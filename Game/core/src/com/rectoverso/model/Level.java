@@ -2,6 +2,8 @@ package com.rectoverso.model;
 
 import java.util.ArrayList;
 
+import com.rectoverso.utils.LevelException;
+
 public class Level {
 
 
@@ -12,23 +14,46 @@ public class Level {
 		NORMAL,SECRET,MOVIE;
 	};
 	
-	private LevelState state = LevelState.PRINTED;
+	private LevelState state;
 	private int number;
 	private LevelType type;
 	private String name;
 	private String background;
-	private boolean locked = true;
+	private boolean locked;
 	private ArrayList<Map> maps = new ArrayList<Map>(2);
 	private MergedMap mergedMap;
+	private int scaleX,scaleY;
 	//private ArrayList<Rooting> routings = new ArrayList<Rooting>(8);
 	
-	public Level(int number, String name , LevelType type, boolean locked){
+	public Level(int number, String name, LevelType type, boolean locked){
 		this.number = number;
 		this.name = name;
 		this.type = type;
 		this.locked = locked;
-		
+		this.state = LevelState.PRINTED;
 	}
+	
+	public Level(int number, String name, LevelType type, boolean locked, 
+			String background, ArrayList<Map> maps, int scaleX, int scaleY, Player player) throws LevelException{
+		this(number, name, type, locked);
+		if(maps.size() != 2)
+			throw new LevelException("Le niveau doit être composé de deux cartes.");
+		if(player == null)
+			throw new LevelException("Ce niveau ne comporte pas de joueur");
+		this.scaleX = scaleX;
+		this.scaleY = scaleY;
+		
+		this.maps = maps;
+		this.background = background;
+		
+		this.mergedMap = new MergedMap(this.maps.get(0).getTiles(), this.maps.get(0).getEntities(), player);
+		this.state = LevelState.LOADED;
+	}
+	
+	public MergedMap getMergedMap(){
+		return this.mergedMap;
+	}
+	
 	public void setLocked(boolean lock){
 		if(this.locked && !lock){
 			unlock();
@@ -36,6 +61,14 @@ public class Level {
 		else if (!this.locked && lock){
 			lock();
 		}
+	}
+	
+	public int getScaleX(){
+		return this.scaleX;
+	}
+	
+	public int getScaleY(){
+		return this.scaleY;
 	}
 	
 	public boolean isLocked(){
