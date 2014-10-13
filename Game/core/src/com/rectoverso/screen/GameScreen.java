@@ -42,9 +42,18 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Contro
 		this.gRenderer = new GameRenderer(this.gController);
 	}
 
+	public GameScreen(RVGame game, Level level, boolean b) {
+		// TODO Auto-generated constructor stub
+		super(game);
+		this.gController = new GameController(level);
+		this.gRenderer = new GameRenderer(this.gController);
+		this.gController.isEditor = true;
+	}
+
 	@Override
 	public void render(float delta) {
-		gController.update(delta);
+		if(gController.update(delta)==1)
+			game.setScreen(game.getLevelEditorScreen());
 		gRenderer.render();
 	}
 
@@ -98,6 +107,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Contro
 			break;
 		case Keys.SPACE:
 			//gController.zoomOut();
+			break;
+		case Keys.ESCAPE:
+			gController.pushBackToEditor();
+			Gdx.app.log(RVGame.LOG, "Ca tape !!");
 			break;
 		}
 		return false;

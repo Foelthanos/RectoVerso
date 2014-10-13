@@ -2,6 +2,7 @@ package com.rectoverso.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,12 +18,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.rectoverso.RVGame;
 import com.rectoverso.controllers.MusicManager.RVMusic;
 import com.rectoverso.controllers.SoundManager.RVSound;
+import com.rectoverso.model.Level;
+import com.rectoverso.model.Level.LevelType;
+import com.rectoverso.model.Tile;
 import com.rectoverso.utils.DefaultInputListener;
+import com.rectoverso.controllers.GameController;
+import com.rectoverso.controllers.GameRenderer;
+import com.rectoverso.controllers.LevelManager;
 
 public class LevelEditorScreen extends AbstractScreen {
 
 	private final int PANELW = 200; 
 	private final int BUTTONH = 40;
+	
+	private GameRenderer levelrenderer ;
+	private GameController levelController;
+	private Level level;
+	
 	
 	private SpriteBatch batch;
 	private TextureRegion menuImage;
@@ -37,6 +49,28 @@ public class LevelEditorScreen extends AbstractScreen {
 
 	public LevelEditorScreen(RVGame game) {
 		super(game);
+		this.level = Level.createEmptyLevel(10);
+		this.levelController = new GameController(this.level);
+		this.levelController.isEditor = true;
+		this.levelrenderer = new GameRenderer(levelController);
+		//levelController.getCamera().viewportHeight = 100;
+		//levelController.getCamera().viewportWidth = 100;
+		this.levelController.getCamera().position.x = - 50;
+		this.levelController.getCamera().position.y = - 100;
+		
+	}
+	
+	public LevelEditorScreen(RVGame game, Level level) {
+		super(game);
+		this.level = level;
+		this.levelController = new GameController(this.level);
+		this.levelController.isEditor = true;
+		this.levelrenderer = new GameRenderer(levelController);
+		//levelController.getCamera().viewportHeight = 100;
+		//levelController.getCamera().viewportWidth = 100;
+		this.levelController.getCamera().position.x = - 50;
+		this.levelController.getCamera().position.y = - 100;
+		
 	}
 
 	@Override
@@ -44,23 +78,8 @@ public class LevelEditorScreen extends AbstractScreen {
 	{
 		super.show();
 		// retrieve the default table actor
-		/*TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("images-atlases/pages.atlas"));
-        menuImage = atlas.findRegion("titleScreenImage");*/
 		batch = this.getBatch();
 		
-		
-		/*tileList.getSelection().setMultiple(false);
-		tileList.getSelection().setRequired(false);*/
-		
-		
-		
-		
-		
-		//scrollPane.setFlickScroll(false);
-		
-		/*tileSel = new SelectBox<String>(getSkin(),);
-		tileSel.setItems(new String[] {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"});
-		*/
 		// register the button "charger"
 		TextButton loadButton = new TextButton("Charger", getSkin() );
 		loadButton.addListener(new DefaultInputListener() {
@@ -119,6 +138,8 @@ public class LevelEditorScreen extends AbstractScreen {
 					int button )
 			{
 				super.touchUp(event, x, y, pointer, button);
+				game.getSoundManager().play(RVSound.CLICK );
+				game.setScreen(game.getGameScreen(level, true));
 			}
 		} );
 
@@ -330,5 +351,38 @@ public class LevelEditorScreen extends AbstractScreen {
 		}
 		this.tableBackground.row();
         
+	}
+
+	@Override
+	public void render(float delta) {
+		
+		//super.render(delta);
+		//this.levelController.update(delta);;
+		
+		//System.out.println("Position souris : "+ mouseX + " : " + mouseY);
+		
+		
+		
+		this.levelrenderer.render();
+		this.renderVue(delta);
+		
+		this.stage.draw();
+		
+	}
+	public void renderVue(float delta){
+		
+		OrthographicCamera camera = this.levelController.getCamera();
+		camera.update();
+		
+		System.out.println("Mouse Input "+Gdx.input.getX() + " ; " + Gdx.input.getY());
+		if(Gdx.input.getX() < 225 || Gdx.input.getY() < 40) return;
+		
+		float mouseX = Gdx.input.getX() - Gdx.graphics.getWidth()/2 + camera.position.x;
+		float mouseY = (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight()/2 + camera.position.y;
+		
+		Tile tile = this.levelrenderer.renderTileFocused(mouseX,mouseY);
+		if (tile != null ){
+			//System.out.println(tile.getPosition().x + " ; " + tile.getPosition().y);
+		}
 	}
 }

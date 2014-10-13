@@ -200,4 +200,9 @@ public class RVGame extends Game {
 		Gdx.app.log(RVGame.LOG, "Pausing game");
 
 	}
+
+	public Screen getGameScreen(Level level, boolean b) {
+		// TODO Auto-generated method stub
+		return new GameScreen(this, level, b);
+	}
 }

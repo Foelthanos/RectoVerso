@@ -23,9 +23,11 @@ public class Tile {
 	private Vector2 position = new Vector2();
 	private Rectangle bounds = new Rectangle();
 	
-	public Tile(Vector2 pos, TileContent content, TileCollision collision) 
+	public Tile(int col, int row, TileContent content, TileCollision collision) 
 	{
-		this.position = pos;
+		float posX = 64 * col - 64 * row;
+		float posY = - 32 * col - 32 * row;
+		this.position = new Vector2(posX,posY);
 		this.collision = collision;
 		this.content = content;
 		this.bounds.height = Tile.SIZE;

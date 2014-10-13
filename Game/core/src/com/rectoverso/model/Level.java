@@ -2,6 +2,8 @@ package com.rectoverso.model;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Vector2;
+import com.rectoverso.model.Map.Side;
 import com.rectoverso.utils.LevelException;
 
 public class Level {
@@ -24,6 +26,23 @@ public class Level {
 	private MergedMap mergedMap;
 	private int scaleX,scaleY;
 	//private ArrayList<Rooting> routings = new ArrayList<Rooting>(8);
+	
+	//instancier un niveau vide
+	public static Level createEmptyLevel(int size){
+		ArrayList<Map> maps = new ArrayList<Map>();
+		Map recto = new Map(Map.createEmptyMap(size), new ArrayList<Entity>(),Side.RECTO);
+		Map verso = new Map(Map.createEmptyMap(size), new ArrayList<Entity>(),Side.VERSO);
+		maps.add(recto);
+		maps.add(verso);
+		Player player = new Player(new Vector2(0, 0), new Vector2(2, 1));
+		try {
+			return new Level(0,"",LevelType.NORMAL,true,"",maps,size,size,player);
+		} catch (LevelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	public Level(int number, String name, LevelType type, boolean locked){
 		this.number = number;

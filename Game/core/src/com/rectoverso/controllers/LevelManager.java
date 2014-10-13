@@ -97,8 +97,11 @@ public class LevelManager
 					else 
 						tile_collision = TileCollision.NO_COLLISION; 
 
-					map_tiles.add(new Tile(new Vector2(Integer.parseInt(tile.getAttribute("posX")),Integer.parseInt(tile.getAttribute("posY")))
-					, tile_content, tile_collision));
+					map_tiles.add(new Tile(
+							Integer.parseInt(tile.getAttribute("posX")),
+							Integer.parseInt(tile.getAttribute("posY")),
+							tile_content,
+							tile_collision));
 				}
 
 				Array<Element> entities = map.getChildrenByName("entities");

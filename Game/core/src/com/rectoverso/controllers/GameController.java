@@ -20,6 +20,7 @@ public class GameController {
 	public static final int MOVESPEED = 2;
 
 	enum Keys {
+		ESCAPE,
 		RIGHTCLICK,
 		LEFTCLICK,
 		SPACE,
@@ -30,6 +31,7 @@ public class GameController {
 	}
 	static Map<Keys, Boolean> keys = new HashMap<GameController.Keys, Boolean>();
 	static {
+		keys.put(Keys.ESCAPE, false);
 		keys.put(Keys.RIGHTCLICK, false);
 		keys.put(Keys.LEFTCLICK, false);
 		keys.put(Keys.Z, false);
@@ -41,10 +43,12 @@ public class GameController {
 
 	private OrthographicCamera camera = new OrthographicCamera();
 
+	public boolean isEditor = false;
 	private Level level;
 	private int score;
 	private int step;
 	private Vector2 translation;
+	private Vector2 cursorPosition;
 
 	public GameController(Level level){
 		this.level = level;
@@ -65,17 +69,19 @@ public class GameController {
 		return this.level;
 	}
 
-	public void update(float delta) {
+	public int update(float delta) {
 		//Gdx.app.log(RVGame.LOG, "Update game model");
-		this.processInput();
+		int returnCode = this.processInput();
 		Vector2 tmp = isoPosToOrthoIndex(this.getLevel().getMergedMap().getPlayer().getFootPosition(),0,0);
-		Gdx.app.log(RVGame.LOG, "-------------------- Position ---------------------");
+		/*Gdx.app.log(RVGame.LOG, "-------------------- Position ---------------------");
 		Gdx.app.log(RVGame.LOG, "Orthogonal Pos : ["+this.getLevel().getMergedMap().getPlayer().getFootPositionX()+""
 				+","+this.getLevel().getMergedMap().getPlayer().getFootPositionY()+"]");
-		Gdx.app.log(RVGame.LOG, "Tile Index : ["+tmp.x+","+tmp.y+"]");
+		Gdx.app.log(RVGame.LOG, "Tile Index : ["+tmp.x+","+tmp.y+"]");*/
 		if(this.processCollision())
 			this.getLevel().getMergedMap().getPlayer().update(delta);
 		this.camera.update();
+		
+		return returnCode;
 	}
 
 	private Vector2 isoPosToOrthoIndex(Vector2 isoPos, float offsetX, float offsetY){
@@ -117,7 +123,7 @@ public class GameController {
 		return true;
 	}
 
-	private void processInput(){
+	private int processInput(){
 
 		this.getLevel().getMergedMap().getPlayer().setVelocityX(0);
 		this.getLevel().getMergedMap().getPlayer().setVelocityY(0);
@@ -200,9 +206,17 @@ public class GameController {
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.DOWN_RIGHT);
 			}
 		}
-
+		System.out.println(this.isEditor);
+		if(keys.get(Keys.ESCAPE)){
+			keys.get(keys.put(Keys.ESCAPE, false));
+			if(this.isEditor)
+				return 1;
+			
+		}
 		this.camera.position.x = this.getLevel().getMergedMap().getPlayer().getPosition().x;
 		this.camera.position.y = this.getLevel().getMergedMap().getPlayer().getPosition().y;
+		
+		return 0;
 	}
 
 	public void moveUp(){
@@ -224,6 +238,15 @@ public class GameController {
 	public void moveRight(){
 		if(!this.keys.get(Keys.D))
 			keys.get(keys.put(Keys.D, true));
+	}
+	
+	public void pushBackToEditor(){
+		if(!this.keys.get(Keys.ESCAPE))
+			keys.get(keys.put(Keys.ESCAPE, true));
+	}
+	
+	public void releaseBackToEditor(){
+		keys.get(keys.put(Keys.ESCAPE, true));
 	}
 
 	public void releaseUp(){
