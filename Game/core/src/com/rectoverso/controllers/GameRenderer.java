@@ -155,7 +155,6 @@ public class GameRenderer {
 
 		int size = gController.getLevel().getScaleX();
 		
-		System.out.println("Position première case : "+ oX + " : " + oY);
 		shapeRenderer.setColor(1, 1, 1, 1);
 		for(int i = 0 ; i<=size;i++){
 			shapeRenderer.line( oX + 64*i, oY - 32*i, 
@@ -200,58 +199,6 @@ public class GameRenderer {
 		if( spriteBatch != null ) spriteBatch.dispose();
 		if( atlas != null ) atlas.dispose();
 
-	}
-
-	public Tile renderTileFocused(float mouseX, float mouseY) {
-		// TODO Auto-generated method stub
-		Tile firstCase = gController.getLevel().getMergedMap().getTiles().get(0);
-		float oX = firstCase.getPosition().x + firstCase.SIZE/2;
-		float oY = firstCase.getPosition().y + firstCase.SIZE*3/4;
-		
-		//les coordonnées de la tile visée
-		int row,col;
-		double a1 = -0.5 ;
-		double b1 = oY - (a1 * oX);
-		double a2 = 0.5;
-		double b2 = oY - (a2 * oX);
-		
-		int mR = (int) (mouseY - (a1 * mouseX));
-		int mC = (int) (mouseY - (a2 * mouseX));
-		
-		row = (int)( Math.floor((mR-b1)/64)*-1) -1 ;
-		col = (int)( Math.floor((mC-b2)/64)*-1) -1 ;
-		
-		System.out.println("ligne : " + row +  " colonne + " +col);
-		
-		int size = gController.getLevel().getScaleX();
-		if (row < 0 || col < 0)	return null;
-		if (row >= size || col >= size)	return null;
-		
-		
-		ShapeRenderer shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(this.gController.getCamera().combined);
-		shapeRenderer.begin(ShapeType.Line);
-		
-		shapeRenderer.setColor(1, 0, 0, 1);
-		shapeRenderer.line( 0,  mR, mouseX, mouseY);
-		shapeRenderer.setColor(0, 1, 0, 1);
-		shapeRenderer.line( 0,  mC, mouseX, mouseY);
-		shapeRenderer.end();
-		
-		shapeRenderer.begin(ShapeType.Line);
-		shapeRenderer.setColor(0f, 1f, 1f, 1f);
-		int tx = (int) (oX - row * 64 + col*64 );
-		int ty = (int) (oY - row * 32 - col*32 );
-		shapeRenderer.line( tx,  ty, tx + 64, ty - 32);
-		shapeRenderer.line( tx,  ty, tx, ty - 64);
-		shapeRenderer.line( tx + 64, ty - 32, tx , ty - 64);
-		shapeRenderer.line( tx + 64, ty - 32, tx -64, ty - 32);
-		shapeRenderer.line( tx , ty - 64, tx - 64 , ty - 32);
-		shapeRenderer.line( tx - 64, ty - 32, tx , ty );
-		shapeRenderer.end();
-		
-		return this.gController.getLevel().getMergedMap().getTile(row, col, this.gController.getLevel());
-		
 	}
 
 }

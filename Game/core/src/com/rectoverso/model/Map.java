@@ -20,6 +20,7 @@ public class Map {
 	public Map(ArrayList<Tile> tiles, ArrayList<Entity> entities, Side side){
 		this.tiles = tiles;
 		this.entities = entities;
+		this.side = side;
 	}
 	
 	public static ArrayList<Tile> createEmptyMap(int size){
@@ -38,6 +39,13 @@ public class Map {
 	public Tile getTile(int row, int col , Level lvl){
 		return this.tiles.get(row * lvl.getScaleX() + col );
 	}
+	public void setTileContent(int row, int col , Level lvl , TileContent type){
+		Tile tile = this.tiles.get(row * lvl.getScaleX() + col );
+		this.setTileContent(tile, type);
+	}
+	public void setTileContent(Tile tile, TileContent type) {
+		tile.setTileContent(type);
+	}
 	
 	public ArrayList<Entity> getEntities(){
 		return this.entities;
@@ -46,4 +54,6 @@ public class Map {
 	public Side getSide(){
 		return this.side;
 	}
+
+	
 }

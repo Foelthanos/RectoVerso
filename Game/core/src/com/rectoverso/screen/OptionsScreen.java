@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.rectoverso.RVGame;
 import com.rectoverso.controllers.MusicManager.RVMusic;
 import com.rectoverso.controllers.SoundManager.RVSound;
-import com.rectoverso.utils.DefaultInputListener;
+import com.rectoverso.utils.ButtonListener;
 
 /**
  * A simple options screen.
@@ -109,7 +109,7 @@ public class OptionsScreen extends AbstractScreen {
 
         // register the back button
         TextButton backButton = new TextButton("Retour au menu principal", getSkin());
-        backButton.addListener( new DefaultInputListener() {
+        backButton.addListener( new ButtonListener.DefaultInputListener() {
             @Override
             public void touchUp(
                 InputEvent event,

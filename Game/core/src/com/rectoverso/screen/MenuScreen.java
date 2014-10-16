@@ -14,7 +14,8 @@ import com.rectoverso.RVGame;
 import com.rectoverso.controllers.LevelManager;
 import com.rectoverso.controllers.MusicManager.RVMusic;
 import com.rectoverso.controllers.SoundManager.RVSound;
-import com.rectoverso.utils.DefaultInputListener;
+import com.rectoverso.utils.ButtonListener;
+import com.rectoverso.utils.ButtonListener.DefaultInputListener;
 
 
 public class MenuScreen extends AbstractScreen {
@@ -50,80 +51,34 @@ public class MenuScreen extends AbstractScreen {
 		table.row();
 		table.add(subtitle).spaceBottom(50).right();
 		table.row();
+		
 		// register the button "new game"
 		TextButton startGameButton = new TextButton("Aventure", this.getSkin());
-		startGameButton.addListener(new DefaultInputListener() {
-			@Override
-			public void touchUp(
-					InputEvent event,
-					float x,
-					float y,
-					int pointer,
-					int button )
-			{
-				super.touchUp(event, x, y, pointer, button);
-				game.getSoundManager().play( RVSound.CLICK );
-				/*game.setScreen(game.getStartLocalGameScreen());*/
-				game.setScreen(game.getLevelSelectScreen());
-			}
-		} );
+		startGameButton.addListener(new ButtonListener.ChangeScreenListener(game,game.getLevelSelectScreen()));
+		
 		table.add(startGameButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
 
 		// register the button "options"
 		TextButton optionsButton = new TextButton("Options", getSkin());
-		optionsButton.addListener(new DefaultInputListener() {
-			@Override
-			public void touchUp(
-					InputEvent event,
-					float x,
-					float y,
-					int pointer,
-					int button )
-			{
-				super.touchUp(event, x, y, pointer, button);
-				game.getSoundManager().play(RVSound.CLICK);
-				game.setScreen(game.getOptionsScreen());
-			}
-		} );
+		optionsButton.addListener(new ButtonListener.ChangeScreenListener(game,game.getOptionsScreen()) );
+		
 		table.add(optionsButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
 
 		// register the button "editor"
 		TextButton editorButton = new TextButton("Editeur", getSkin() );
-		editorButton.addListener(new DefaultInputListener() {
-			@Override
-			public void touchUp(
-					InputEvent event,
-					float x,
-					float y,
-					int pointer,
-					int button )
-			{
-				super.touchUp(event, x, y, pointer, button);
-				game.getSoundManager().play(RVSound.CLICK);
-				game.setScreen(game.getLevelEditorScreen());
-			}
-		} );
+		editorButton.addListener(new ButtonListener.ChangeScreenListener(game,game.getLevelEditorScreen())); 
+		
 		table.add(editorButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
 
 		// register the button "credit"
 		TextButton creditButton = new TextButton("Credit", getSkin() );
-		creditButton.addListener(new DefaultInputListener() {
-			@Override
-			public void touchUp(
-					InputEvent event,
-					float x,
-					float y,
-					int pointer,
-					int button )
-			{
-				super.touchUp(event, x, y, pointer, button);
-				//game.setScreen(game.getCreditScreen());
-				game.setScreen(game.getGameScreen(LevelManager.loadLevel(Gdx.files.internal("levels/level1.xml"))));
-			}
-		} );
+		creditButton.addListener(new ButtonListener.ChangeScreenListener(game,game.getGameScreen(LevelManager.loadLevel(Gdx.files.internal("levels/level1.xml"))))); 
+		//creditButton.addListener(new ButtonListener.ChangeScreenListener(game,game.getCreditScreen())); 
+		
+		
 		table.add(creditButton).size(this.BUTTONW, this.BUTTONH).uniform().spaceBottom(10).right();
 		table.row();
 
