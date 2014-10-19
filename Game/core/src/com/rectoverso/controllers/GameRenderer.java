@@ -1,4 +1,4 @@
-package com.rectoverso.controllers;
+﻿package com.rectoverso.controllers;
 
 import java.util.Hashtable;
 
@@ -155,7 +155,9 @@ public class GameRenderer {
 
 		int size = gController.getLevel().getScaleX();
 		
+
 		System.out.println("Position premi�re case : "+ oX + " : " + oY);
+
 		shapeRenderer.setColor(1, 1, 1, 1);
 		for(int i = 0 ; i<=size;i++){
 			shapeRenderer.line( oX + 64*i, oY - 32*i, 
@@ -201,6 +203,7 @@ public class GameRenderer {
 		if( atlas != null ) atlas.dispose();
 
 	}
+
 
 	public Tile renderTileFocused(float mouseX, float mouseY) {
 		// TODO Auto-generated method stub
@@ -253,5 +256,6 @@ public class GameRenderer {
 		return this.gController.getLevel().getMergedMap().getTile(row, col, this.gController.getLevel());
 		
 	}
+
 
 }

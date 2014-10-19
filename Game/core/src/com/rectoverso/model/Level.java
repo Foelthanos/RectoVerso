@@ -72,6 +72,15 @@ public class Level {
 	public MergedMap getMergedMap(){
 		return this.mergedMap;
 	}
+	public Map getMap(Map.Side side){
+		if (side == Side.MERGED) return getMergedMap();
+		
+		for (Map m : this.maps){
+			if (m == null) System.out.println("Cette carte n'existe pas !");
+			if(m.getSide() == side) return m;
+		}
+		return null;
+	}
 	
 	public void setLocked(boolean lock){
 		if(this.locked && !lock){

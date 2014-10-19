@@ -38,6 +38,10 @@ public class Tile {
 		return this.content;
 	}
 	
+	public void setTileContent(TileContent type){
+		this.content = type;
+	}
+	
 	public TileCollision getTileCollision(){
 		return this.collision;
 	}

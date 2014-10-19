@@ -1,10 +1,16 @@
 package com.rectoverso.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
@@ -21,9 +27,11 @@ import com.rectoverso.controllers.SoundManager.RVSound;
 import com.rectoverso.model.Level;
 import com.rectoverso.model.Level.LevelType;
 import com.rectoverso.model.Tile;
-import com.rectoverso.utils.DefaultInputListener;
+import com.rectoverso.model.Tile.TileContent;
+import com.rectoverso.utils.ButtonListener;
 import com.rectoverso.controllers.GameController;
 import com.rectoverso.controllers.GameRenderer;
+import com.rectoverso.controllers.LevelEditorManager;
 import com.rectoverso.controllers.LevelManager;
 
 public class LevelEditorScreen extends AbstractScreen {
@@ -31,14 +39,17 @@ public class LevelEditorScreen extends AbstractScreen {
 	private final int PANELW = 200; 
 	private final int BUTTONH = 40;
 	
-	private GameRenderer levelrenderer ;
-	private GameController levelController;
-	private Level level;
+	private LevelEditorManager manager;
+	//private Level level;
 	
 	
 	private SpriteBatch batch;
 	private TextureRegion menuImage;
 	
+	private boolean flagLeftClic = false;
+	private boolean flagRightClic = false;
+	private Vector3 cameraDragPosition;
+	private Vector3 mouseDragPosition;
 	
 	
 	private Table tableTiles = new Table(getSkin());
@@ -48,29 +59,15 @@ public class LevelEditorScreen extends AbstractScreen {
 	private ScrollPane scrollPaneItems;
 
 	public LevelEditorScreen(RVGame game) {
-		super(game);
-		this.level = Level.createEmptyLevel(10);
-		this.levelController = new GameController(this.level);
-		this.levelController.isEditor = true;
-		this.levelrenderer = new GameRenderer(levelController);
-		//levelController.getCamera().viewportHeight = 100;
-		//levelController.getCamera().viewportWidth = 100;
-		this.levelController.getCamera().position.x = - 50;
-		this.levelController.getCamera().position.y = - 100;
 		
-	}
-	
-	public LevelEditorScreen(RVGame game, Level level) {
 		super(game);
-		this.level = level;
-		this.levelController = new GameController(this.level);
-		this.levelController.isEditor = true;
-		this.levelrenderer = new GameRenderer(levelController);
-		//levelController.getCamera().viewportHeight = 100;
-		//levelController.getCamera().viewportWidth = 100;
-		this.levelController.getCamera().position.x = - 50;
-		this.levelController.getCamera().position.y = - 100;
-		
+		//this(game, Level.createEmptyLevel(10) );
+		this.manager = this.game.getLevelEditorManager();
+		if(manager.getLevelEdited() == null){
+			System.out.println("création d'un niveau vide !");
+			Level level = Level.createEmptyLevel(10);
+			manager.setLevelEdited(level);
+		}
 	}
 
 	@Override
@@ -82,7 +79,7 @@ public class LevelEditorScreen extends AbstractScreen {
 		
 		// register the button "charger"
 		TextButton loadButton = new TextButton("Charger", getSkin() );
-		loadButton.addListener(new DefaultInputListener() {
+		loadButton.addListener(new ButtonListener.DefaultInputListener() {
 			@Override
 			public void touchUp(
 					InputEvent event,
@@ -96,7 +93,7 @@ public class LevelEditorScreen extends AbstractScreen {
 		} );
 		
 		TextButton newButton = new TextButton("Nouveau", getSkin() );
-		newButton.addListener(new DefaultInputListener() {
+		newButton.addListener(new ButtonListener.DefaultInputListener() {
 			@Override
 			public void touchUp(
 					InputEvent event,
@@ -112,7 +109,7 @@ public class LevelEditorScreen extends AbstractScreen {
 
 		// register the button "save"
 		TextButton saveButton = new TextButton("Sauvegarder", getSkin() );
-		saveButton.addListener(new DefaultInputListener() {
+		saveButton.addListener(new ButtonListener.DefaultInputListener() {
 			@Override
 			public void touchUp(
 					InputEvent event,
@@ -128,7 +125,7 @@ public class LevelEditorScreen extends AbstractScreen {
 		
 		// register the button "test"
 		TextButton testButton = new TextButton("Tester", getSkin() );
-		testButton.addListener(new DefaultInputListener() {
+		testButton.addListener(new ButtonListener.DefaultInputListener() {
 		@Override
 			public void touchUp(
 					InputEvent event,
@@ -139,30 +136,18 @@ public class LevelEditorScreen extends AbstractScreen {
 			{
 				super.touchUp(event, x, y, pointer, button);
 				game.getSoundManager().play(RVSound.CLICK );
-				game.setScreen(game.getGameScreen(level, true));
+				game.setScreen(game.getGameScreen(manager.getLevelEdited(), true));
 			}
 		} );
 
 		// register the back button
         TextButton backButton = new TextButton("Retour", getSkin());
-        backButton.addListener( new DefaultInputListener() {
-            @Override
-            public void touchUp(
-                InputEvent event,
-                float x,
-                float y,
-                int pointer,
-                int button )
-            {
-                super.touchUp( event, x, y, pointer, button );
-                game.getSoundManager().play(RVSound.CLICK );
-                game.setScreen( new MenuScreen( game ) );
-            }
-        });
+        backButton.addListener( new ButtonListener.ChangeScreenListener(game,game.getMenuScreen()) );
+           
         
      // register the manager button
         TextButton propertiesButton = new TextButton("Proprietes", getSkin());
-        propertiesButton.addListener( new DefaultInputListener() {
+        propertiesButton.addListener( new ButtonListener.DefaultInputListener() {
             @Override
             public void touchUp(
                 InputEvent event,
@@ -178,7 +163,7 @@ public class LevelEditorScreen extends AbstractScreen {
         });
 		
         TextButton tileButton = new TextButton("Tiles", getSkin());
-        tileButton.addListener( new DefaultInputListener() {
+        tileButton.addListener( new ButtonListener.DefaultInputListener() {
             @Override
             public void touchUp(
                 InputEvent event,
@@ -194,7 +179,7 @@ public class LevelEditorScreen extends AbstractScreen {
         });
 		
         TextButton BGButton = new TextButton("BGs", getSkin());
-        BGButton.addListener( new DefaultInputListener() {
+        BGButton.addListener( new ButtonListener.DefaultInputListener() {
             @Override
             public void touchUp(
                 InputEvent event,
@@ -210,7 +195,7 @@ public class LevelEditorScreen extends AbstractScreen {
         });
         
         TextButton decorButton = new TextButton("Dec", getSkin());
-        decorButton.addListener( new DefaultInputListener() {
+        decorButton.addListener( new ButtonListener.DefaultInputListener() {
             @Override
             public void touchUp(
                 InputEvent event,
@@ -226,7 +211,7 @@ public class LevelEditorScreen extends AbstractScreen {
         });
         
         TextButton objectButton = new TextButton("Obj", getSkin());
-        objectButton.addListener( new DefaultInputListener() {
+        objectButton.addListener( new ButtonListener.DefaultInputListener() {
             @Override
             public void touchUp(
                 InputEvent event,
@@ -295,14 +280,23 @@ public class LevelEditorScreen extends AbstractScreen {
 		if( RVGame.DEV_MODE ) {
 			this.tableTiles.debug();
 		}
+		//le panel est en haut à gauche
 		this.tableTiles.left().top();
 
-		for (int i = 0; i < 15;i++){
-			for (int j = 0; j < 4;j++){
-				TextButton button = new TextButton(i + ":" + j, getSkin());
-				this.tableTiles.add(button).size(PANELW/4,this.BUTTONH).bottom().left();
-			}
-			this.tableTiles.row();
+		//ici on case 4 bouttons par lignes
+		int column = 0;
+		for (TileContent tileType : TileContent.values()){
+			TextButton button = new TextButton(tileType.toString(), getSkin());
+			button.setName(tileType.toString());
+			button.addListener( new ButtonListener.TileButtonListener(game,tileType) );
+			
+			//ajoute le bouton au panel
+			this.tableTiles.add(button).size(PANELW/4,this.BUTTONH).bottom().left();
+			
+			// quand le nombre max de bouton est atteint, on passe à la ligne suivante
+			column ++;
+			if(column == 4)this.tableTiles.row();
+			
 		}
         
 	}
@@ -356,33 +350,85 @@ public class LevelEditorScreen extends AbstractScreen {
 	@Override
 	public void render(float delta) {
 		
-		//super.render(delta);
-		//this.levelController.update(delta);;
+		this.manager.getGameRenderer().render();
 		
-		//System.out.println("Position souris : "+ mouseX + " : " + mouseY);
-		
-		
-		
-		this.levelrenderer.render();
-		this.renderVue(delta);
+		this.renderMap(delta);
 		
 		this.stage.draw();
 		
 	}
-	public void renderVue(float delta){
+	public void renderMap(float delta){
 		
-		OrthographicCamera camera = this.levelController.getCamera();
-		camera.update();
+		OrthographicCamera camera = this.manager.getGameController().getCamera();
 		
-		System.out.println("Mouse Input "+Gdx.input.getX() + " ; " + Gdx.input.getY());
 		if(Gdx.input.getX() < 225 || Gdx.input.getY() < 40) return;
 		
+		//obtenir les coordonnées de la souris par rapport à la caméra
 		float mouseX = Gdx.input.getX() - Gdx.graphics.getWidth()/2 + camera.position.x;
 		float mouseY = (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight()/2 + camera.position.y;
 		
-		Tile tile = this.levelrenderer.renderTileFocused(mouseX,mouseY);
+		//une tuile est elle visée ?
+		Tile tile = this.manager.getGameController().getTile(mouseX, mouseY);
 		if (tile != null ){
-			//System.out.println(tile.getPosition().x + " ; " + tile.getPosition().y);
+			this.manager.setTileFocused(tile);
 		}
+		this.renderTileFocused();
+		
+		//as t- on cliqué gauche?
+		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) ){
+			if(!flagLeftClic){
+				//flagLeftClic = true;
+				this.manager.changeTile();
+			}
+		}
+		else{
+			flagLeftClic = false;
+		}
+
+		//as t- on cliqué droit?
+		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) ){
+			if(!flagRightClic){
+				System.out.println("Retaining position");
+				flagRightClic = true;
+				this.cameraDragPosition = new Vector3(camera.position);
+				this.mouseDragPosition = new Vector3(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0);
+			}
+			Vector3 mouseOffset = new Vector3(Gdx.input.getX() ,  Gdx.graphics.getHeight() - Gdx.input.getY(), 0).sub(mouseDragPosition)  ;
+			System.out.println("Mouse offset : " + cameraDragPosition.toString());
+			camera.position.set( new Vector3(cameraDragPosition).sub(mouseOffset));
+			
+		}
+		else{
+			flagRightClic = false;
+		}
+		
+		camera.update();
 	}
+	
+	private void renderTileFocused() {
+		// TODO Auto-generated method stub
+		
+		Tile tileFocused = this.manager.getTileFocused();
+		
+		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setProjectionMatrix(this.manager.getGameController().getCamera().combined);
+		
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(0f, 1f, 1f, 1f);
+		
+		int tx = (int) tileFocused.getPosition().x + 64;
+		int ty = (int) tileFocused.getPosition().y + 96;
+		
+		shapeRenderer.line( tx,  ty, tx + 64, ty - 32);
+		shapeRenderer.line( tx,  ty, tx, ty - 64);
+		shapeRenderer.line( tx + 64, ty - 32, tx , ty - 64);
+		shapeRenderer.line( tx + 64, ty - 32, tx -64, ty - 32);
+		shapeRenderer.line( tx , ty - 64, tx - 64 , ty - 32);
+		shapeRenderer.line( tx - 64, ty - 32, tx , ty );
+		
+		shapeRenderer.end();
+		
+	}
+
+	
 }

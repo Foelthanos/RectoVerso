@@ -13,7 +13,8 @@ import com.rectoverso.controllers.SoundManager.RVSound;
 import com.rectoverso.model.Level;
 import com.rectoverso.model.World;
 import com.rectoverso.utils.ArrowIconButton;
-import com.rectoverso.utils.DefaultInputListener;
+import com.rectoverso.utils.ButtonListener;
+import com.rectoverso.utils.ButtonListener.DefaultInputListener;
 import com.rectoverso.utils.LevelIconButton;
 import com.rectoverso.utils.LevelIconButton.IconState;
 
@@ -40,20 +41,7 @@ public class LevelSelectScreen extends AbstractScreen {
 		
 		// register the back button
         TextButton backButton = new TextButton("Retour", getSkin());
-        backButton.addListener( new DefaultInputListener() {
-            @Override
-            public void touchUp(
-                InputEvent event,
-                float x,
-                float y,
-                int pointer,
-                int button )
-            {
-                super.touchUp( event, x, y, pointer, button );
-                game.getSoundManager().play(RVSound.CLICK );
-                game.setScreen( new MenuScreen( game ) );
-            }
-        });
+        backButton.addListener( new ButtonListener.ChangeScreenListener(game,game.getMenuScreen()) );
         
      // register the play button
         playButton = new TextButton("Lancer", getSkin());
