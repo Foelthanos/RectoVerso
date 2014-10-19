@@ -17,7 +17,7 @@ import com.rectoverso.model.Player.State;
 import com.rectoverso.model.Player.WalkDirection;
 import com.rectoverso.model.Tile;
 import com.rectoverso.model.Tile.TileContent;
-import com.sun.prism.GraphicsPipeline.ShaderType;
+//import com.sun.prism.GraphicsPipeline.ShaderType;
 import com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetResult;
 
 /**
@@ -155,7 +155,7 @@ public class GameRenderer {
 
 		int size = gController.getLevel().getScaleX();
 		
-		System.out.println("Position première case : "+ oX + " : " + oY);
+		System.out.println("Position premiï¿½re case : "+ oX + " : " + oY);
 		shapeRenderer.setColor(1, 1, 1, 1);
 		for(int i = 0 ; i<=size;i++){
 			shapeRenderer.line( oX + 64*i, oY - 32*i, 
@@ -208,7 +208,7 @@ public class GameRenderer {
 		float oX = firstCase.getPosition().x + firstCase.SIZE/2;
 		float oY = firstCase.getPosition().y + firstCase.SIZE*3/4;
 		
-		//les coordonnées de la tile visée
+		//les coordonnï¿½es de la tile visï¿½e
 		int row,col;
 		double a1 = -0.5 ;
 		double b1 = oY - (a1 * oX);
