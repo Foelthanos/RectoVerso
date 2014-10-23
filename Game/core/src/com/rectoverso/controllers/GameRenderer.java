@@ -1,4 +1,4 @@
-package com.rectoverso.controllers;
+﻿package com.rectoverso.controllers;
 
 import java.util.Hashtable;
 
@@ -16,6 +16,9 @@ import com.rectoverso.model.Player.State;
 import com.rectoverso.model.Player.WalkDirection;
 import com.rectoverso.model.Tile;
 import com.rectoverso.model.Tile.TileContent;
+
+//import com.sun.prism.GraphicsPipeline.ShaderType;
+import com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetResult;
 
 /**
  * Class that manage the render of the game screen. 
@@ -164,6 +167,9 @@ public class GameRenderer {
 			sizeR = gController.getLevel().getSizeCol();
 		}
 		
+
+		System.out.println("Position premi�re case : "+ oX + " : " + oY);
+
 		shapeRenderer.setColor(1, 1, 1, 1);
 		for(int i = 0 ; i<=Math.max(sizeR, sizeC);i++){
 			if(i<=sizeC)
@@ -213,5 +219,6 @@ public class GameRenderer {
 		if( atlas != null ) atlas.dispose();
 
 	}
+
 
 }
