@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.rectoverso.model.Level;
-import com.rectoverso.utils.LevelIconButton.IconState;
 
 public class ArrowIconButton implements ApplicationListener{
 	

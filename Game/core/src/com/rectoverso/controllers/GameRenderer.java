@@ -4,21 +4,18 @@ import java.util.Hashtable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.rectoverso.RVGame;
+import com.rectoverso.model.Map.Side;
 import com.rectoverso.model.Player;
 import com.rectoverso.model.Player.State;
 import com.rectoverso.model.Player.WalkDirection;
 import com.rectoverso.model.Tile;
 import com.rectoverso.model.Tile.TileContent;
-import com.sun.prism.GraphicsPipeline.ShaderType;
-import com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetResult;
 
 /**
  * Class that manage the render of the game screen. 
@@ -150,19 +147,35 @@ public class GameRenderer {
 		shapeRenderer.setProjectionMatrix(this.gController.getCamera().combined);
 		shapeRenderer.begin(ShapeType.Line);
 		Tile firstCase = gController.getLevel().getMergedMap().getTiles().get(0);
-		float oX = firstCase.getPosition().x + firstCase.SIZE/2;
-		float oY = firstCase.getPosition().y + firstCase.SIZE*3/4;
+		float oX = firstCase.getPosition().x + Tile.SIZE/2;
+		float oY = firstCase.getPosition().y + Tile.SIZE*3/4;
 
-		int size = gController.getLevel().getScaleX();
+		int sizeR = 0;
+		int sizeC = 0;
+		
+		if (this.gController.getLevel().getMergedMap().sideFocus == Side.RECTO)
+		{
+			sizeR = gController.getLevel().getSizeRow();
+			sizeC = gController.getLevel().getSizeCol();
+		}
+		else if (this.gController.getLevel().getMergedMap().sideFocus == Side.VERSO)
+		{
+			sizeC = gController.getLevel().getSizeRow();
+			sizeR = gController.getLevel().getSizeCol();
+		}
 		
 		shapeRenderer.setColor(1, 1, 1, 1);
-		for(int i = 0 ; i<=size;i++){
+		for(int i = 0 ; i<=Math.max(sizeR, sizeC);i++){
+			if(i<=sizeC)
 			shapeRenderer.line( oX + 64*i, oY - 32*i, 
-					oX - 64*size + 64*i, oY - 32*size- 32*i);
+					oX - 64*sizeR + 64*i, oY - 32*sizeR- 32*i);
+			
+			if(i<=sizeR)
 			shapeRenderer.line( oX - 64*i, oY - 32*i, 
-					oX + 64*size - 64*i, oY - 32*size- 32*i);
+					oX + 64*sizeC - 64*i, oY - 32*sizeC- 32*i);
 		}
 		shapeRenderer.end();
+		shapeRenderer.dispose();
 	}
 
 	public void render() {
@@ -187,7 +200,7 @@ public class GameRenderer {
 
 		spriteBatch.end();
 
-		if(gController.isEditor){
+		if(gController.isEditorView){
 			this.drawGrid();
 		}
 

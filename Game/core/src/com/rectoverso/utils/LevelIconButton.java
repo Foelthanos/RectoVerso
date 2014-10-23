@@ -1,20 +1,14 @@
 package com.rectoverso.utils;
 
-import java.nio.BufferOverflowException;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.GridPoint2;
-import com.rectoverso.RVGame;
 import com.rectoverso.model.Level;
-import com.rectoverso.screen.AbstractScreen;
 
 public class LevelIconButton implements ApplicationListener {
     

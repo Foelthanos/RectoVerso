@@ -30,12 +30,12 @@ public class LevelSelectManager {
     	XmlReader.Element xml_element;
 		try {
 			xml_element = xml.parse(file);
-	    	Iterator iterator_world = xml_element.getChildrenByName("world").iterator();
+	    	Iterator<XmlReader.Element> iterator_world = xml_element.getChildrenByName("world").iterator();
 	    	Gdx.app.log(RVGame.LOG, "Select Level : init parse of worlds");
 	    	
 	    	//Iteration des mondes
 	    	while(iterator_world.hasNext()){
-	    	     XmlReader.Element world_element = (XmlReader.Element)iterator_world.next();
+	    	     XmlReader.Element world_element = iterator_world.next();
 	    	     Gdx.app.log(RVGame.LOG, "World :"+ worldCount +" - " + world_element.getAttribute("name"));
 	    	     
 	    	     World world = new World(worldCount, world_element.getAttribute("name"));
@@ -43,9 +43,9 @@ public class LevelSelectManager {
 	    	     //Iteration des niveaux
 	    	     levelCount = 1;
 	    	     secretCount = 1;
-	    	     Iterator iterator_level = world_element.getChildrenByName("level").iterator();
+	    	     Iterator<XmlReader.Element> iterator_level = world_element.getChildrenByName("level").iterator();
 	    	     while(iterator_level.hasNext()){
-	    	    	 XmlReader.Element level_element = (XmlReader.Element)iterator_level.next();
+	    	    	 XmlReader.Element level_element = iterator_level.next();
 	    	    	 Gdx.app.log(RVGame.LOG, "Level :"+ levelCount +" - " + level_element.getAttribute("name"));
 	    	    	 
 	    	    	 Level level = new Level(
@@ -57,9 +57,9 @@ public class LevelSelectManager {
 	    	    	 world.addLevel(level);
 	    	    	 
 	    	    	 //Iteration des niveaux secrets
-	    	    	 Iterator iterator_secret = level_element.getChildrenByName("secret").iterator();
+	    	    	 Iterator <XmlReader.Element> iterator_secret = level_element.getChildrenByName("secret").iterator();
 	    	    	 while(iterator_secret.hasNext()){
-		    	    	 XmlReader.Element secret_element = (XmlReader.Element)iterator_secret.next();
+		    	    	 XmlReader.Element secret_element = iterator_secret.next();
 		    	    	 Gdx.app.log(RVGame.LOG, "Secret :"+ secretCount +" - " + secret_element.getAttribute("name"));
 		    	    	 
 		    	    	 Level secret = new Level(
