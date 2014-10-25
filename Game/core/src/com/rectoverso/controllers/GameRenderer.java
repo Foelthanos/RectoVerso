@@ -17,7 +17,6 @@ import com.rectoverso.model.Player.State;
 import com.rectoverso.model.Player.WalkDirection;
 import com.rectoverso.model.Tile;
 import com.rectoverso.model.Tile.TileContent;
-//import com.sun.prism.GraphicsPipeline.ShaderType;
 import com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetResult;
 
 /**
