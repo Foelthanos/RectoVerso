@@ -3,22 +3,16 @@ package com.rectoverso.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.rectoverso.RVGame;
 import com.rectoverso.model.Level;
 import com.rectoverso.model.Player;
 import com.rectoverso.model.Tile;
+import com.rectoverso.model.Map.Side;
 import com.rectoverso.model.Player.State;
 import com.rectoverso.model.Player.WalkDirection;
 import com.rectoverso.model.Tile.TileCollision;
-import com.rectoverso.model.Tile.TileContent;
-
+	
 public class GameController {
 
 	public static final int MOVESPEED = 2;
@@ -47,7 +41,8 @@ public class GameController {
 
 	private OrthographicCamera camera = new OrthographicCamera();
 
-	public boolean isEditor = false;
+	public boolean isEditorView = false;
+	public boolean isEditorTesting = false;
 	private Level level;
 	private int score;
 	private int step;
@@ -97,8 +92,8 @@ public class GameController {
 	public Tile getTile(float posX, float posY){
 		
 		Tile firstCase = this.getLevel().getMergedMap().getTiles().get(0);
-		float oX = firstCase.getPosition().x + firstCase.SIZE/2;
-		float oY = firstCase.getPosition().y + firstCase.SIZE*3/4;
+		float oX = firstCase.getPosition().x + Tile.SIZE/2;
+		float oY = firstCase.getPosition().y + Tile.SIZE*3/4;
 		
 		//les coordonnées de la tile visée
 		int row,col;
@@ -113,23 +108,25 @@ public class GameController {
 		row = (int)( Math.floor((mR-b1)/64)*-1) -1 ;
 		col = (int)( Math.floor((mC-b2)/64)*-1) -1 ;
 		
-		int size = this.getLevel().getScaleX();
+		int sizeR = 0;
+		int sizeC = 0;
+		
+		if (this.getLevel().getMergedMap().sideFocus == Side.RECTO)
+		{
+			sizeR = this.getLevel().getSizeRow();
+			sizeC = this.getLevel().getSizeCol();
+		}
+		else if (this.getLevel().getMergedMap().sideFocus == Side.VERSO)
+		{
+			sizeC = this.getLevel().getSizeRow();
+			sizeR = this.getLevel().getSizeCol();
+		}
 		
 		//supposon que le point sorte des limites, on choisira la case la plus proche
 		if (row < 0 ) row = 0;
-		else if (row >= size) row = size-1;
+		else if (row >= sizeR) row = sizeR-1;
 		if (col < 0 ) col = 0;
-		else if (col >= size) col = size-1;
-		
-		ShapeRenderer shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(this.getCamera().combined);
-		shapeRenderer.begin(ShapeType.Line);
-		
-		shapeRenderer.setColor(1, 0, 0, 1);
-		shapeRenderer.line( 0,  mR, posX, posY);
-		shapeRenderer.setColor(0, 1, 0, 1);
-		shapeRenderer.line( 0,  mC, posX, posY);
-		shapeRenderer.end();
+		else if (col >= sizeC) col = sizeC-1;
 		
 		
 		return this.getLevel().getMergedMap().getTile(row, col, this.getLevel());
@@ -142,7 +139,7 @@ public class GameController {
 			Vector2 tmpTilePos = this.isoPosToOrthoIndex(this.getLevel().getMergedMap().getPlayer().getPosition(), 
 					-Player.SPEED,0);
 			if(this.getLevel().getMergedMap().getTile(
-					tmpTilePos, this.getLevel().getScaleX()).getTileCollision().equals(
+					tmpTilePos, this.getLevel().getSizeCol()).getTileCollision().equals(
 							TileCollision.COLLISION)){
 				this.getLevel().getMergedMap().getPlayer().setState(State.IDLE);
 				return false;
@@ -174,20 +171,20 @@ public class GameController {
 		this.getLevel().getMergedMap().getPlayer().setVelocityY(0);
 		this.getLevel().getMergedMap().getPlayer().setState(State.IDLE);
 
-		if(this.keys.get(Keys.Z)){
+		if(GameController.keys.get(Keys.Z)){
 			this.getLevel().getMergedMap().getPlayer().setVelocityY(Player.SPEED);
 			this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.UP);
 			this.getLevel().getMergedMap().getPlayer().setState(State.WALKING);
 
-			if(this.keys.get(Keys.S)){
+			if(GameController.keys.get(Keys.S)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityY(0);
 				this.getLevel().getMergedMap().getPlayer().setState(State.IDLE);
 			}
-			else if(this.keys.get(Keys.Q)){
+			else if(GameController.keys.get(Keys.Q)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(-Player.SPEED);
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.UP_LEFT);
 			}
-			else if(this.keys.get(Keys.D)){
+			else if(GameController.keys.get(Keys.D)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(Player.SPEED);
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.UP_RIGHT);
 			}
@@ -195,66 +192,66 @@ public class GameController {
 
 		}
 
-		else if(this.keys.get(Keys.S)){
+		else if(GameController.keys.get(Keys.S)){
 			this.getLevel().getMergedMap().getPlayer().setVelocityY(-Player.SPEED);
 			this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.DOWN);
 			this.getLevel().getMergedMap().getPlayer().setState(State.WALKING);
 
-			if(this.keys.get(Keys.Z)){
+			if(GameController.keys.get(Keys.Z)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityY(0);
 				this.getLevel().getMergedMap().getPlayer().setState(State.IDLE);
 			}
-			else if(this.keys.get(Keys.Q)){
+			else if(GameController.keys.get(Keys.Q)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(-Player.SPEED);
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.DOWN_LEFT);
 			}
-			else if(this.keys.get(Keys.D)){
+			else if(GameController.keys.get(Keys.D)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(Player.SPEED);
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.DOWN_RIGHT);
 			}
 		}
 
-		else if(this.keys.get(Keys.Q)){
+		else if(GameController.keys.get(Keys.Q)){
 			this.getLevel().getMergedMap().getPlayer().setVelocityX(-Player.SPEED);
 			this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.LEFT);
 			this.getLevel().getMergedMap().getPlayer().setState(State.WALKING);
 
-			if(this.keys.get(Keys.D)){
+			if(GameController.keys.get(Keys.D)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(0);
 				this.getLevel().getMergedMap().getPlayer().setState(State.IDLE);
 			}
-			else if(this.keys.get(Keys.Z)){
+			else if(GameController.keys.get(Keys.Z)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(-Player.SPEED);
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.UP_LEFT);
 			}
-			else if(this.keys.get(Keys.S)){
+			else if(GameController.keys.get(Keys.S)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(Player.SPEED);
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.DOWN_LEFT);
 			}
 		}
 
-		else if(this.keys.get(Keys.D)){
+		else if(GameController.keys.get(Keys.D)){
 			this.getLevel().getMergedMap().getPlayer().setVelocityX(Player.SPEED);
 			this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.RIGHT);
 			this.getLevel().getMergedMap().getPlayer().setState(State.WALKING);
 
-			if(this.keys.get(Keys.Q)){
+			if(GameController.keys.get(Keys.Q)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(0);
 				this.getLevel().getMergedMap().getPlayer().setState(State.IDLE);
 			}
-			else if(this.keys.get(Keys.Z)){
+			else if(GameController.keys.get(Keys.Z)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(-Player.SPEED);
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.UP_RIGHT);
 			}
-			else if(this.keys.get(Keys.S)){
+			else if(GameController.keys.get(Keys.S)){
 				this.getLevel().getMergedMap().getPlayer().setVelocityX(Player.SPEED);
 				this.getLevel().getMergedMap().getPlayer().setWalkDirection(WalkDirection.DOWN_RIGHT);
 			}
 		}
-		System.out.println(this.isEditor);
+		System.out.println(this.isEditorView );
 		if(keys.get(Keys.ESCAPE)){
 			keys.get(keys.put(Keys.ESCAPE, false));
-			if(this.isEditor)
+			if(this.isEditorTesting )
 				return 1;
 			
 		}
@@ -265,28 +262,28 @@ public class GameController {
 	}
 
 	public void moveUp(){
-		if(!this.keys.get(Keys.Z))
+		if(!GameController.keys.get(Keys.Z))
 			keys.get(keys.put(Keys.Z, true));
 
 	}
 
 	public void moveDown(){
-		if(!this.keys.get(Keys.S))
+		if(!GameController.keys.get(Keys.S))
 			keys.get(keys.put(Keys.S, true));
 	}
 
 	public void moveLeft(){
-		if(!this.keys.get(Keys.Q))
+		if(!GameController.keys.get(Keys.Q))
 			keys.get(keys.put(Keys.Q, true));
 	}
 
 	public void moveRight(){
-		if(!this.keys.get(Keys.D))
+		if(!GameController.keys.get(Keys.D))
 			keys.get(keys.put(Keys.D, true));
 	}
 	
 	public void pushBackToEditor(){
-		if(!this.keys.get(Keys.ESCAPE))
+		if(!GameController.keys.get(Keys.ESCAPE))
 			keys.get(keys.put(Keys.ESCAPE, true));
 	}
 	

@@ -3,8 +3,6 @@ package com.rectoverso.controllers;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
@@ -45,30 +43,27 @@ public class LevelManager
 		// register the levels
 
 	}
-	public static Level loadLevel(FileHandle file){
+	public static Level loadLevel(FileHandle file , Level level){
 		ArrayList<Map> level_maps = new ArrayList<Map>();
-		Level level = null;
 		XmlReader reader = new XmlReader();
 
 		try {
 			Element root = reader.parse(file);
 			Array<Element> maps = root.getChildrenByName("map");
 
-			LevelType level_type = null;
+			/*LevelType level_type = null;
 
 			if(root.getAttribute("type").equals("NORMAL"))
 				level_type = LevelType.NORMAL;
 			else if(root.getAttribute("type").equals("MOVIE"))
 				level_type = LevelType.MOVIE;
 			else if(root.getAttribute("type").equals("SECRET"))
-				level_type = LevelType.SECRET;
+				level_type = LevelType.SECRET;*/
 
-			Player level_player = new Player(new Vector2(50, 0), new Vector2(0, 0));
-			int level_number = Integer.parseInt(root.getAttribute("number"));
-			String level_name = root.getAttribute("name");
-			boolean level_locked = (root.getAttribute("locked") == "true")?true:false;
-			int level_scaleX = Integer.parseInt(root.getAttribute("scaleX"));
-			int level_scaleY = Integer.parseInt(root.getAttribute("scaleY"));
+			Player level_player = new Player(new Vector2(0, 0), new Vector2(0, 0),Side.RECTO);
+			
+			int level_sizeRow= Integer.parseInt(root.getAttribute("sizeRow"));
+			int level_sizeCol= Integer.parseInt(root.getAttribute("sizeCol"));
 			String level_background = (root.getAttribute("background")=="")?null:root.getAttribute("background");
 
 			for (Element map : maps)
@@ -98,8 +93,8 @@ public class LevelManager
 						tile_collision = TileCollision.NO_COLLISION; 
 
 					map_tiles.add(new Tile(
-							Integer.parseInt(tile.getAttribute("posX")),
-							Integer.parseInt(tile.getAttribute("posY")),
+							Integer.parseInt(tile.getAttribute("col")),
+							Integer.parseInt(tile.getAttribute("row")),
 							tile_content,
 							tile_collision));
 				}
@@ -112,8 +107,7 @@ public class LevelManager
 
 				level_maps.add(new Map(map_tiles, map_entities, map_side));
 			}
-			level = new Level(level_number, level_name, level_type, 
-					level_locked, level_background, level_maps, level_scaleX, level_scaleY, level_player);
+			level.loadLevel(level_background, level_maps, level_sizeRow,level_sizeCol, level_player);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -124,48 +118,71 @@ public class LevelManager
 		return level;
 	}
 
-	public static void saveLevel (/*Level level*/){
+	public static void saveLevel (Level level, String fileName){
 		StringWriter writer = new StringWriter();
 		XmlWriter xml = new XmlWriter(writer);
+		
+		Map recto = level.getMap(Side.RECTO);
+		Map verso = level.getMap(Side.VERSO);
+		
 		try {
-			xml.element("level")
-			.attribute("name", "")
-			.attribute("background", "")
+			//<level type="NORMAL" name="Des pierres oubliées" locked="false" size="2" background="" number="1">
+			xml = xml.element("level")
+			.attribute("type", level.getType())
+			.attribute("name", level.getName())
+			.attribute("sizeRow", level.getSizeRow())
+			.attribute("sizeCol", level.getSizeCol())
+			.attribute("background", level.getBackground())
 			.element("map")
-			.attribute("side", "recto")
-			.element("tile")
-			.attribute("x", ""/*recto.tile(0,0).x*/)
-			.attribute("y", ""/*recto.tile(0,0).y*/)
-			.pop()
-			.pop()
+				.attribute("side", "RECTO");
+				
+				for(int i = 0 ; i< level.getSizeRow() ; i++){
+					for(int j = 0 ; j< level.getSizeCol() ; j++){
+						//<tile contentType="BASE_GRASSGROUND" collisionType="COLLISION" row="0" col="0">
+						Tile tile = recto.getTile(i,j , level);
+						xml = 
+								xml.element("tile")
+									.attribute("contentType", tile.getTileContent())
+									.attribute("collisionType", tile.getTileCollision())
+									.attribute("row", i)
+									.attribute("col", j)
+								.pop();
+					}
+				}
+			xml = xml.pop()
 			.element("map")
-			.attribute("side", "verso")
-			.element("tile")
-			.attribute("x", ""/*verso.tile(0,0).x*/)
-			.attribute("y", ""/*verso.tile(0,0).y*/)
-			.pop()
-			.pop()
+				.attribute("side", "VERSO");
+			
+				for(int i = 0 ; i< level.getSizeRow() ; i++){
+					for(int j = 0 ; j< level.getSizeCol() ; j++){
+						//<tile contentType="BASE_GRASSGROUND" collisionType="COLLISION" row="0" col="0">
+						Tile tile = verso.getTile(i,j , level);
+						xml = 
+								xml.element("tile")
+									.attribute("contentType", tile.getTileContent())
+									.attribute("collisionType", tile.getTileCollision())
+									.attribute("row", i)
+									.attribute("col", j)
+								.pop();
+					}
+				}
+				
+				xml = xml.pop()
 			.pop();
 
 			//TO BE CONTINUED... On prendra garde ï¿½ privilï¿½gier les constantes et enums
 
+			xml.close();
 			Gdx.app.log(RVGame.LOG, writer.toString());
+			
+			//ecrire le fichier
+			FileHandle file = Gdx.files.local( "bin/levels/"+fileName +".xml");
+			Gdx.app.log(RVGame.LOG,Gdx.files.isLocalStorageAvailable() + Gdx.files.getLocalStoragePath() +" " + file.path());
+			file.writeString(writer.toString(), false);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public void setItem (/*Item item , Map carte , int tileX , int tileY , boolean recto*/){
-		//ajoute un item ï¿½ l'emplacement indiquï¿½, si une autre s'y trouve dï¿½ja, il sera remplacï¿½
-	}
-	public void setTile (/*Tuile tile, Map carte , int tileX , int tileY , boolean recto*/){
-		//ajoute une tuile ï¿½ l'emplacement indiquï¿½, si une autre s'y trouve dï¿½ja, il sera remplacï¿½
-	}
-	public void setBackground (/*Background bg, Map carte */){
-		//ajoute ou remplace le background
-	}
-	public void render(/*Map carte*/){
-
 	}
 }

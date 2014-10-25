@@ -1,10 +1,7 @@
 package com.rectoverso.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -13,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.rectoverso.RVGame;
 import com.rectoverso.controllers.LevelManager;
 import com.rectoverso.controllers.MusicManager.RVMusic;
-import com.rectoverso.controllers.SoundManager.RVSound;
+import com.rectoverso.model.Level;
 import com.rectoverso.utils.ButtonListener;
 import com.rectoverso.utils.ButtonListener.DefaultInputListener;
 
@@ -75,7 +72,7 @@ public class MenuScreen extends AbstractScreen {
 
 		// register the button "credit"
 		TextButton creditButton = new TextButton("Credit", getSkin() );
-		creditButton.addListener(new ButtonListener.ChangeScreenListener(game,game.getGameScreen(LevelManager.loadLevel(Gdx.files.internal("levels/level1.xml"))))); 
+		creditButton.addListener(new ButtonListener.ChangeScreenListener(game,game.getGameScreen(LevelManager.loadLevel(Gdx.files.internal("levels/level1.xml"),new Level())))); 
 		//creditButton.addListener(new ButtonListener.ChangeScreenListener(game,game.getCreditScreen())); 
 		
 		

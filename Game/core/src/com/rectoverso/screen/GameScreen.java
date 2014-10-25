@@ -1,7 +1,5 @@
 package com.rectoverso.screen;
 
-import java.io.IOException;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
@@ -9,27 +7,13 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.rectoverso.RVGame;
 import com.rectoverso.controllers.GameController;
 import com.rectoverso.controllers.GameRenderer;
 import com.rectoverso.model.Level;
 
 public class GameScreen extends AbstractScreen implements InputProcessor, ControllerListener{
-
-
 
 	//private GameController gController;
 	private GameRenderer gRenderer;
@@ -47,7 +31,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor, Contro
 		super(game);
 		this.gController = new GameController(level);
 		this.gRenderer = new GameRenderer(this.gController);
-		this.gController.isEditor = true;
+		this.gController.isEditorTesting = true;
 	}
 
 	@Override

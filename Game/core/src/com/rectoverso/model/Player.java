@@ -1,11 +1,17 @@
 package com.rectoverso.model;
 
 import com.badlogic.gdx.math.Vector2;
+import com.rectoverso.model.Map.Side;
 
 public class Player extends Entity{
 
-	public Player(Vector2 position, Vector2 velocity) {
-		super(position, velocity);
+	public Player(Vector2 spawnCoordinate, Vector2 velocity, Side side) {
+		super(spawnCoordinate, velocity, side);
+		// TODO Auto-generated constructor stub
+	}
+	public Player(int spawnRow, int spawnCol, Vector2 velocity, Side side) {
+		
+		this(new Vector2(spawnRow,spawnCol), velocity, side);
 		// TODO Auto-generated constructor stub
 	}
 

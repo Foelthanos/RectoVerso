@@ -4,19 +4,22 @@ import java.util.Hashtable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.rectoverso.RVGame;
+import com.rectoverso.model.Map.Side;
 import com.rectoverso.model.Player;
 import com.rectoverso.model.Player.State;
 import com.rectoverso.model.Player.WalkDirection;
 import com.rectoverso.model.Tile;
 import com.rectoverso.model.Tile.TileContent;
+
+
+//import com.sun.prism.GraphicsPipeline.ShaderType;
+
 import com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetResult;
 
 /**
@@ -149,22 +152,38 @@ public class GameRenderer {
 		shapeRenderer.setProjectionMatrix(this.gController.getCamera().combined);
 		shapeRenderer.begin(ShapeType.Line);
 		Tile firstCase = gController.getLevel().getMergedMap().getTiles().get(0);
-		float oX = firstCase.getPosition().x + firstCase.SIZE/2;
-		float oY = firstCase.getPosition().y + firstCase.SIZE*3/4;
+		float oX = firstCase.getPosition().x + Tile.SIZE/2;
+		float oY = firstCase.getPosition().y + Tile.SIZE*3/4;
 
-		int size = gController.getLevel().getScaleX();
+		int sizeR = 0;
+		int sizeC = 0;
+		
+		if (this.gController.getLevel().getMergedMap().sideFocus == Side.RECTO)
+		{
+			sizeR = gController.getLevel().getSizeRow();
+			sizeC = gController.getLevel().getSizeCol();
+		}
+		else if (this.gController.getLevel().getMergedMap().sideFocus == Side.VERSO)
+		{
+			sizeC = gController.getLevel().getSizeRow();
+			sizeR = gController.getLevel().getSizeCol();
+		}
 		
 
 		System.out.println("Position premi�re case : "+ oX + " : " + oY);
 
 		shapeRenderer.setColor(1, 1, 1, 1);
-		for(int i = 0 ; i<=size;i++){
+		for(int i = 0 ; i<=Math.max(sizeR, sizeC);i++){
+			if(i<=sizeC)
 			shapeRenderer.line( oX + 64*i, oY - 32*i, 
-					oX - 64*size + 64*i, oY - 32*size- 32*i);
+					oX - 64*sizeR + 64*i, oY - 32*sizeR- 32*i);
+			
+			if(i<=sizeR)
 			shapeRenderer.line( oX - 64*i, oY - 32*i, 
-					oX + 64*size - 64*i, oY - 32*size- 32*i);
+					oX + 64*sizeC - 64*i, oY - 32*sizeC- 32*i);
 		}
 		shapeRenderer.end();
+		shapeRenderer.dispose();
 	}
 
 	public void render() {
@@ -189,7 +208,7 @@ public class GameRenderer {
 
 		spriteBatch.end();
 
-		if(gController.isEditor){
+		if(gController.isEditorView){
 			this.drawGrid();
 		}
 
@@ -201,59 +220,6 @@ public class GameRenderer {
 		if( spriteBatch != null ) spriteBatch.dispose();
 		if( atlas != null ) atlas.dispose();
 
-	}
-
-
-	public Tile renderTileFocused(float mouseX, float mouseY) {
-		// TODO Auto-generated method stub
-		Tile firstCase = gController.getLevel().getMergedMap().getTiles().get(0);
-		float oX = firstCase.getPosition().x + firstCase.SIZE/2;
-		float oY = firstCase.getPosition().y + firstCase.SIZE*3/4;
-		
-		//les coordonn�es de la tile vis�e
-		int row,col;
-		double a1 = -0.5 ;
-		double b1 = oY - (a1 * oX);
-		double a2 = 0.5;
-		double b2 = oY - (a2 * oX);
-		
-		int mR = (int) (mouseY - (a1 * mouseX));
-		int mC = (int) (mouseY - (a2 * mouseX));
-		
-		row = (int)( Math.floor((mR-b1)/64)*-1) -1 ;
-		col = (int)( Math.floor((mC-b2)/64)*-1) -1 ;
-		
-		System.out.println("ligne : " + row +  " colonne + " +col);
-		
-		int size = gController.getLevel().getScaleX();
-		if (row < 0 || col < 0)	return null;
-		if (row >= size || col >= size)	return null;
-		
-		
-		ShapeRenderer shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(this.gController.getCamera().combined);
-		shapeRenderer.begin(ShapeType.Line);
-		
-		shapeRenderer.setColor(1, 0, 0, 1);
-		shapeRenderer.line( 0,  mR, mouseX, mouseY);
-		shapeRenderer.setColor(0, 1, 0, 1);
-		shapeRenderer.line( 0,  mC, mouseX, mouseY);
-		shapeRenderer.end();
-		
-		shapeRenderer.begin(ShapeType.Line);
-		shapeRenderer.setColor(0f, 1f, 1f, 1f);
-		int tx = (int) (oX - row * 64 + col*64 );
-		int ty = (int) (oY - row * 32 - col*32 );
-		shapeRenderer.line( tx,  ty, tx + 64, ty - 32);
-		shapeRenderer.line( tx,  ty, tx, ty - 64);
-		shapeRenderer.line( tx + 64, ty - 32, tx , ty - 64);
-		shapeRenderer.line( tx + 64, ty - 32, tx -64, ty - 32);
-		shapeRenderer.line( tx , ty - 64, tx - 64 , ty - 32);
-		shapeRenderer.line( tx - 64, ty - 32, tx , ty );
-		shapeRenderer.end();
-		
-		return this.gController.getLevel().getMergedMap().getTile(row, col, this.gController.getLevel());
-		
 	}
 
 

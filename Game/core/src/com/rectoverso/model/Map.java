@@ -23,10 +23,10 @@ public class Map {
 		this.side = side;
 	}
 	
-	public static ArrayList<Tile> createEmptyMap(int size){
+	public static ArrayList<Tile> createEmptyMap(int sizeRow , int sizeCol){
 		ArrayList<Tile> map = new ArrayList<Tile>();
-		for (int row = 0 ; row < size ; row ++){
-			for (int col = 0 ; col < size ; col ++){
+		for (int row = 0 ; row < sizeRow ; row ++){
+			for (int col = 0 ; col < sizeCol ; col ++){
 				map.add(new Tile(col, row, TileContent.NOTHING, TileCollision.COLLISION));
 			}
 		}
@@ -37,10 +37,10 @@ public class Map {
 		return this.tiles;
 	}
 	public Tile getTile(int row, int col , Level lvl){
-		return this.tiles.get(row * lvl.getScaleX() + col );
+		return this.tiles.get(row * lvl.getSizeCol() + col );
 	}
 	public void setTileContent(int row, int col , Level lvl , TileContent type){
-		Tile tile = this.tiles.get(row * lvl.getScaleX() + col );
+		Tile tile = this.tiles.get(row * lvl.getSizeCol() + col );
 		this.setTileContent(tile, type);
 	}
 	public void setTileContent(Tile tile, TileContent type) {
