@@ -27,10 +27,36 @@ public class Map {
 		ArrayList<Tile> map = new ArrayList<Tile>();
 		for (int row = 0 ; row < sizeRow ; row ++){
 			for (int col = 0 ; col < sizeCol ; col ++){
-				map.add(new Tile(col, row, TileContent.NOTHING, TileCollision.COLLISION));
+				map.add(new Tile(col, row, TileContent.NOTHING, TileCollision.NO_COLLISION));
 			}
 		}
 		return map;
+	}
+	
+	public void resize(int sizeRow , int sizeCol , Level lvl){
+		
+		//on a besoin de savoir l'ancienne taille de la carte
+		int previousSizeRow = lvl.getSizeRow();
+		int previousSizeCol = lvl.getSizeCol();
+		
+		if(side == Side.VERSO){
+			// c'est l'inverse bien sur quand il s'agit du verso
+			previousSizeRow = lvl.getSizeCol();
+			previousSizeCol = lvl.getSizeRow();
+		}
+		
+		ArrayList<Tile> newMap = new ArrayList<Tile>();
+		for (int row = 0 ; row < sizeRow ; row ++){
+			for (int col = 0 ; col < sizeCol ; col ++){
+				//On transfert la tile de l'ancienne map si elle n'est pas en dehors de la limite
+				if (row < previousSizeRow && col < previousSizeCol )
+					newMap.add(this.tiles.get(col + previousSizeCol*row));
+				//le reste est comblé avec des tuiles vides
+				else
+					newMap.add(new Tile(col, row, TileContent.NOTHING, TileCollision.NO_COLLISION));
+			}
+		}
+		this.tiles = newMap ;
 	}
 	
 	public ArrayList<Tile> getTiles(){

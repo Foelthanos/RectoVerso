@@ -521,7 +521,10 @@ public class LevelEditorScreen extends AbstractScreen {
 				if((Boolean) object){
 					System.out.println("Chosen: " + loadingList.getSelected());
 					manager.setLevelEdited(LevelManager.loadLevel(Gdx.files.internal("levels/" + loadingList.getSelected() + ".xml"),new Level()));
+					manager.getLevelEdited().fileName = loadingList.getSelected();
+					manager.updateProperties();
 					showConfirm("Info", "Niveau charge avec succes", "", "");
+					
 				}
 				this.remove();
 			}
@@ -551,7 +554,7 @@ public class LevelEditorScreen extends AbstractScreen {
 					manager.applyProperties();
 				}
 				else{
-					this.remove();
+					manager.updateProperties();
 				}
 			}
 		}.button("Confirmer", true).button("Annuler", false);
@@ -588,7 +591,7 @@ public class LevelEditorScreen extends AbstractScreen {
 			protected void result (Object object) {
 				flagPopUp = false;
 				if((Boolean) object){
-					if(confirm_okMethod == "") return;
+					if(confirm_okMethod == "" || confirm_okMethod == null) return;
 					try {
 						manager.getClass().getMethod(confirm_okMethod).invoke(manager);
 					} catch (NoSuchMethodException e) {
@@ -609,7 +612,7 @@ public class LevelEditorScreen extends AbstractScreen {
 					}
 				}
 				else{
-					if(confirm_cancelMethod == "") return;
+					if(confirm_cancelMethod == "" || confirm_cancelMethod == null) return;
 					try {
 						this.getClass().getMethod(confirm_cancelMethod).invoke(this);
 					} catch (NoSuchMethodException e) {
@@ -632,7 +635,7 @@ public class LevelEditorScreen extends AbstractScreen {
 				
 			}
 		}.text(message);
-		if(okManagerMethod != "" || cancelViewMethod !="")
+		if((okManagerMethod != "" && okManagerMethod != null) || (cancelViewMethod !="" && cancelViewMethod != null) )
 		{
 			dialog.button("Confirmer", true).button("Annuler", false);
 		}

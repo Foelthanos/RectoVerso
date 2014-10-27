@@ -164,6 +164,14 @@ public class Level {
 	public void resizeMap(int row, int col) {
 		// TODO Auto-generated method stub
 		
+		
+		this.getMap(Side.RECTO).resize(row, col, this);
+		this.getMap(Side.VERSO).resize(col, row, this);
+		
+		this.sizeRow = row;
+		this.sizeCol = col;
+		
+		this.mergedMap.setTiles(this.getMap(Side.RECTO).getTiles());
 	}
 
 }

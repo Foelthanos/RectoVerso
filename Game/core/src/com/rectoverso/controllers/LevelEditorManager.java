@@ -129,12 +129,36 @@ public class LevelEditorManager {
 		}
 		catch (NumberFormatException e){
 			e.toString();
+			view.showConfirm("Error", "Values for grid size are either invalid or too low !",null,null);
+			updateProperties();
 		}
 		
 		if (row > 0 && col > 0){
-			this.levelEdited.resizeMap( row , col);
+			if (col != this.levelEdited.getSizeCol() || row != this.levelEdited.getSizeRow()){
+				if (col < this.levelEdited.getSizeCol() || row < this.levelEdited.getSizeRow()){
+					view.showConfirm("Warning", "Resizing The map to "+row+"x"+col+" may override some of the Tiles , Proceed ?", "resizeMap", null);
+				}
+				else{
+					this.resizeMap();
+				}
+			}
 		}
-		updateProperties();
+		else{
+			view.showConfirm("Error", "Values for grid size are either invalid or too low !",null,null);
+			updateProperties();
+		}
+	}
+	public void resizeMap (){
+		int row = -1;
+		int col = -1;
+		try{
+			row = Integer.parseInt(this.view.propertie_row.getText());
+			col = Integer.parseInt(this.view.propertie_col.getText());
+		}
+		catch (NumberFormatException e){
+		}
+		this.levelEdited.resizeMap( row , col);
+		view.showConfirm("Info", "Map resized to "+row+"x"+col+".", null, null);
 	}
 	
 	public GameController getGameController(){

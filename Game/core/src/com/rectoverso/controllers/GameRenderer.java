@@ -212,7 +212,6 @@ public class GameRenderer {
 			this.drawGrid();
 		}
 
-
 	}
 
 	public void dispose() {
